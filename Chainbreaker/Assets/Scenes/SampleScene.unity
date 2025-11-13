@@ -776,13 +776,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   defaultSpeed: 10
   sprintSpeed: 25
-  slideSpeed: 50
-  slideTime: 25
+  slideForce: 25
+  slideTime: 1
   defaultHealth: 5
-  jumpForce: 100
+  jumpForce: 10
   ground:
     serializedVersion: 2
     m_Bits: 64
+  groundDrag: 4
+  airResistance: 2
   state: 0
 --- !u!114 &1959613112
 MonoBehaviour:

@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     [Header("Stats")]
     public int defaultSpeed = 20;
     public int sprintSpeed = 50;
-    public int slideSpeed = 25;
+    public int slideForce = 25;
     public float slideTime = 5;
     public int defaultHealth = 5;
     public int jumpForce = 10;
@@ -17,8 +17,11 @@ public class Movement : MonoBehaviour
     float slideTimer;
     float jumpTimer;
 
-    [Header("More")]
+    [Header("Drag")]
     public LayerMask ground;
+    public float groundDrag = 2f;
+    public float airResistance = 10f;
+    
     Vector2 moveVector;
 
     //Action bools
@@ -29,6 +32,7 @@ public class Movement : MonoBehaviour
     bool falling;
     bool shooting;
     bool sliding;
+    bool facingRight;
 
     Animator a;
     Rigidbody rb;
@@ -52,7 +56,7 @@ public class Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (sliding)
+        if (state == MoveState.sliding)
         {
             slideTimer -= Time.deltaTime;
             if (slideTimer <= 0)
@@ -61,9 +65,18 @@ public class Movement : MonoBehaviour
             }
         }
 
+        if (state == MoveState.inAir)
+        {
+            if (rb.linearVelocity.y <= 0)
+            {
+                EndJump();
+            }
+        }
+
         
         grounded = Physics.Raycast(transform.position+Vector3.up, Vector3.down, 2.5f, ground);
-        moving = (moveVector != Vector2.zero);
+
+        moving = (moveVector != Vector2.zero && state != MoveState.sliding && state != MoveState.inAir);
         StateHandler();
 
 
@@ -74,34 +87,46 @@ public class Movement : MonoBehaviour
         a.SetBool("Sliding", sliding);
         a.SetBool("Falling", falling);
 
-        if (grounded)
-            rb.linearVelocity = new Vector3(moveVector.x * speed, 0, moveVector.y * speed);
+        //if (grounded)
+        rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
 
+
+        if (grounded)
+            rb.linearDamping = groundDrag;
+        else
+            rb.linearDamping = 0;
     }
 
     //basic movement input
     public void OnMove(InputValue moveVal)
     {
-        if (grounded)
+        if (grounded && state != MoveState.sliding)
         {
             moveVector = moveVal.Get<Vector2>();
-            if (moveVector.x < 0) GetComponentInChildren<SpriteRenderer>().flipX = true;
-            else if (moveVector.x > 0) GetComponentInChildren<SpriteRenderer>().flipX = false;
+
+            if (moveVector.x < 0) facingRight = true;
+            else if (moveVector.x > 0) facingRight = false;
+            GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
         }
     }
 
     public void OnSprint()
     {
-        if (grounded)
+        if (grounded && state != MoveState.inAir && state != MoveState.sliding)
         {
             sprinting = !sprinting;
+        }
+        else
+        {
+            sprinting = false;
         }
     }
 
     public void OnJump()
     {
-        if (grounded && state != MoveState.inAir)
+        if (state != MoveState.inAir)
         {
+            transform.position += (Vector3.up * 0.1f);
             a.SetTrigger("Jump");
             jumping = true;
 
@@ -112,11 +137,13 @@ public class Movement : MonoBehaviour
 
     public void OnSlide()
     {
-        if (grounded && state != MoveState.inAir)
+        if (state != MoveState.inAir && state != MoveState.sliding)
         {
             a.SetTrigger("Slide");
             sliding = true;
             slideTimer = slideTime;
+            if (!facingRight) rb.AddForce(new Vector3(slideForce, 0, 0), ForceMode.Impulse);
+            else rb.AddForce(new Vector3(-slideForce, 0, 0), ForceMode.Impulse);
         }
     }
 
@@ -125,6 +152,7 @@ public class Movement : MonoBehaviour
         if (grounded)
         {
             state = MoveState.idle;
+            falling = false;
 
             if (moving)
             {
@@ -139,15 +167,16 @@ public class Movement : MonoBehaviour
             }
             if (sliding)
             {
+                moving = false;
+                sprinting = false;
                 state = MoveState.sliding;
             }
         }
         else
         {
             state = MoveState.inAir;
-            falling = !jumping;
         }
-        
+
     }
 
     void EndSlide()
@@ -160,5 +189,6 @@ public class Movement : MonoBehaviour
     {
         a.SetTrigger("End Jump");
         jumping = false;
+        falling = true;
     }
 }
