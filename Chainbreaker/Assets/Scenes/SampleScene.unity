@@ -774,17 +774,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c993feffe9b3e478249cff7b1e35d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
-  defaultSpeed: 10
-  sprintSpeed: 25
-  slideForce: 25
+  defaultSpeed: 20
+  sprintSpeed: 40
+  slideForce: 50
   slideTime: 1
   defaultHealth: 5
-  jumpForce: 10
+  jumpForce: 5
   ground:
     serializedVersion: 2
     m_Bits: 64
   groundDrag: 4
-  airResistance: 2
+  airResistance: 0.4
   state: 0
 --- !u!114 &1959613112
 MonoBehaviour:
@@ -932,7 +932,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 9fe0a856a63e8634ebc7077bc570ea68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

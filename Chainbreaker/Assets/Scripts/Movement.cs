@@ -22,7 +22,7 @@ public class Movement : MonoBehaviour
     public float groundDrag = 2f;
     public float airResistance = 10f;
     
-    Vector2 moveVector;
+    Vector3 moveVector;
 
     //Action bools
     bool moving;
@@ -58,7 +58,7 @@ public class Movement : MonoBehaviour
     {
         if (state == MoveState.sliding)
         {
-            slideTimer -= Time.deltaTime;
+            slideTimer -= Time.fixedDeltaTime;
             if (slideTimer <= 0)
             {
                 EndSlide();
@@ -73,10 +73,8 @@ public class Movement : MonoBehaviour
             }
         }
 
-        
-        grounded = Physics.Raycast(transform.position+Vector3.up, Vector3.down, 2.5f, ground);
-
-        moving = (moveVector != Vector2.zero && state != MoveState.sliding && state != MoveState.inAir);
+        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);
+        grounded = Physics.Raycast(transform.position+Vector3.up, Vector3.down, 1f, ground);
         StateHandler();
 
 
@@ -87,8 +85,10 @@ public class Movement : MonoBehaviour
         a.SetBool("Sliding", sliding);
         a.SetBool("Falling", falling);
 
-        //if (grounded)
-        rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
+        if (state == MoveState.inAir)
+            rb.AddForce(moveVector.normalized * speed*airResistance, ForceMode.Force);
+        else
+            rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
 
 
         if (grounded)
@@ -100,9 +100,10 @@ public class Movement : MonoBehaviour
     //basic movement input
     public void OnMove(InputValue moveVal)
     {
-        if (grounded && state != MoveState.sliding)
+        if (grounded)
         {
-            moveVector = moveVal.Get<Vector2>();
+            Vector2 moveVec = moveVal.Get<Vector2>();
+            moveVector = new Vector3(moveVec.x, 0, moveVec.y);
 
             if (moveVector.x < 0) facingRight = true;
             else if (moveVector.x > 0) facingRight = false;
@@ -112,14 +113,7 @@ public class Movement : MonoBehaviour
 
     public void OnSprint()
     {
-        if (grounded && state != MoveState.inAir && state != MoveState.sliding)
-        {
-            sprinting = !sprinting;
-        }
-        else
-        {
-            sprinting = false;
-        }
+        sprinting = !sprinting;
     }
 
     public void OnJump()
@@ -165,15 +159,17 @@ public class Movement : MonoBehaviour
                     speed = sprintSpeed;
                 }
             }
+
             if (sliding)
             {
                 moving = false;
-                sprinting = false;
+                speed = 0;
                 state = MoveState.sliding;
             }
         }
         else
         {
+            moving = false;
             state = MoveState.inAir;
         }
 
