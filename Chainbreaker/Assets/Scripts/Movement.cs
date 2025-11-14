@@ -108,6 +108,7 @@ public class Movement : MonoBehaviour
             if (moveVector.x < 0) facingRight = true;
             else if (moveVector.x > 0) facingRight = false;
             GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
+        }
     }
 
     public void OnSprint()
