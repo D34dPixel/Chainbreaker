@@ -100,7 +100,7 @@ public class Movement : MonoBehaviour
     //basic movement input
     public void OnMove(InputValue moveVal)
     {
-        if (grounded)
+        if (state != MoveState.sliding)
         {
             Vector2 moveVec = moveVal.Get<Vector2>();
             moveVector = new Vector3(moveVec.x, 0, moveVec.y);
@@ -108,7 +108,6 @@ public class Movement : MonoBehaviour
             if (moveVector.x < 0) facingRight = true;
             else if (moveVector.x > 0) facingRight = false;
             GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
-        }
     }
 
     public void OnSprint()
