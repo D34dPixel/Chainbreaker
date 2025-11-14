@@ -252,11 +252,11 @@ Transform:
   m_GameObject: {fileID: 143875412}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -5}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1959613110}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &143875417
 MonoBehaviour:
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera
   player: {fileID: 1908075961}
-  lookDelay: 0.125
+  lookDelay: 0.25
   offset: {x: 0, y: 2.5, z: -5}
 --- !u!114 &143875418
 MonoBehaviour:
@@ -424,6 +424,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &561549002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561549003}
+  m_Layer: 7
+  m_Name: Orientation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &561549003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561549002}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1959613110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &688705967
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,8 +787,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 688705969}
-  - {fileID: 143875416}
   - {fileID: 1908075962}
+  - {fileID: 561549003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1959613111
@@ -772,12 +803,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c993feffe9b3e478249cff7b1e35d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
+  orient: {fileID: 561549002}
   defaultSpeed: 20
   sprintSpeed: 60
+  defaultHealth: 6
+  jumpForce: 5
+  slideSpeed: 20
   slideForce: 20
   slideTime: 1
-  defaultHealth: 5
-  jumpForce: 5
+  invincibilityTime: 2
+  raycastDist: 1
   ground:
     serializedVersion: 2
     m_Bits: 64
@@ -862,7 +897,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1 &1962751839
 GameObject:
@@ -980,5 +1015,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1962751843}
+  - {fileID: 143875416}
   - {fileID: 1959613110}
   - {fileID: 1213307216}
