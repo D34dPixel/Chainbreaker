@@ -137,7 +137,7 @@ public class Movement : MonoBehaviour
             a.SetTrigger("Slide");
             sliding = true;
             slideTimer = slideTime;
-            rb.AddForce(moveVector*slideForce, ForceMode.Impulse);;
+            if (moving) rb.AddForce(moveVector*slideForce, ForceMode.Impulse);
         }
     }
 
