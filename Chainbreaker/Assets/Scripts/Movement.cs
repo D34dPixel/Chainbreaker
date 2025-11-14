@@ -133,6 +133,7 @@ public class Movement : MonoBehaviour
     {
         if (state != MoveState.inAir && state != MoveState.sliding)
         {
+            rb.mass = 0.5f;
             a.SetTrigger("Slide");
             sliding = true;
             slideTimer = slideTime;
@@ -176,6 +177,7 @@ public class Movement : MonoBehaviour
 
     void EndSlide()
     {
+        rb.mass = 1f;
         a.SetTrigger("End Slide");
         sliding = false;
     }
