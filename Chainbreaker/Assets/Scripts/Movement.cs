@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -35,7 +36,8 @@ public class Movement : MonoBehaviour
     public LayerMask ground;
     public float groundDrag = 2f;
     public float airResistance = 10f;
-    
+
+    Vector3 moveInputs;
     Vector3 moveVector;
 
     //Action bools
@@ -112,6 +114,7 @@ public class Movement : MonoBehaviour
                 rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
         }
 
+        orient.transform.position = transform.position + Vector3.up*2;
 
         if (grounded)
             rb.linearDamping = groundDrag;
@@ -122,18 +125,19 @@ public class Movement : MonoBehaviour
     //basic movement input
     public void OnMove(InputValue moveVal)
     {
-        Vector2 moveVec = moveVal.Get<Vector2>();
-        moveVector = new Vector3(moveVec.x, 0, moveVec.y);
+        moveInputs = moveVal.Get<Vector2>();
+        moveVector = (moveInputs.y*orient.transform.forward + orient.transform.right * moveInputs.x);
 
-        if (moveVector.x < 0) facingRight = true;
-        else if (moveVector.x > 0) facingRight = false;
+        if (moveInputs.x < 0) facingRight = true;
+        else if (moveInputs.x > 0) facingRight = false;
         GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
     }
 
     public void Rotate()
     {
         rb.rotation = orient.transform.rotation;
-        orient.transform.localRotation = Quaternion.identity;
+        //orient.transform.localRotation = Quaternion.identity;
+        moveVector = (moveInputs.y * orient.transform.forward + orient.transform.right * moveInputs.x);
     }
 
     public void OnSprint()
@@ -151,6 +155,7 @@ public class Movement : MonoBehaviour
         Rotate();
         if (state != MoveState.inAir)
         {
+            EndSlide();
             transform.position += (Vector3.up * 0.1f);
             a.SetTrigger("Jump");
             jumping = true;
