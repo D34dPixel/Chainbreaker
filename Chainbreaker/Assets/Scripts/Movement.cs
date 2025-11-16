@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 public class Movement : MonoBehaviour
 {
-    public GameObject orient;
+    public GameObject orient, chara;
     [Header("Stats")]
     public int defaultSpeed = 20;
     public int sprintSpeed = 50;
@@ -57,7 +58,6 @@ public class Movement : MonoBehaviour
     {
         a = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
-        //rb.freezeRotation = true;
         health = defaultHealth;
     }
     private void FixedUpdate()
@@ -85,10 +85,13 @@ public class Movement : MonoBehaviour
             }
         }
 
-        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);
+        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);          
+        if (moving)
+        {
+            Rotate();
+        }
         grounded = Physics.Raycast(transform.position+Vector3.up, Vector3.down, raycastDist, ground);
         StateHandler();
-
 
         a.SetBool("Grounded", grounded);
         a.SetBool("Moving", moving);
@@ -99,11 +102,15 @@ public class Movement : MonoBehaviour
         a.SetBool("Aiming", aiming);
 
         if (state == MoveState.inAir)
-            rb.AddForce(moveVector.normalized * speed*airResistance, ForceMode.Force);
-        else if (state == MoveState.sliding)
-            rb.AddForce(slideDir.normalized * speed, ForceMode.Force);
+            rb.AddForce(moveVector.normalized * speed * airResistance, ForceMode.Force);
         else
-            rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
+        {
+            rb.AddForce(Vector3.down*10, ForceMode.Force);
+            if (state == MoveState.sliding)
+                rb.AddForce(slideDir.normalized * speed, ForceMode.Force);
+            else
+                rb.AddForce(moveVector.normalized * speed, ForceMode.Force);
+        }
 
 
         if (grounded)
@@ -123,6 +130,12 @@ public class Movement : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
     }
 
+    public void Rotate()
+    {
+        rb.rotation = orient.transform.rotation;
+        orient.transform.localRotation = Quaternion.identity;
+    }
+
     public void OnSprint()
     {
         sprinting = !sprinting;
@@ -135,6 +148,7 @@ public class Movement : MonoBehaviour
 
     public void OnJump()
     {
+        Rotate();
         if (state != MoveState.inAir)
         {
             transform.position += (Vector3.up * 0.1f);
@@ -148,6 +162,7 @@ public class Movement : MonoBehaviour
 
     public void OnSlide()
     {
+        Rotate();
         if (state != MoveState.inAir && state != MoveState.sliding)
         {
             slideDir = moveVector;
@@ -157,7 +172,7 @@ public class Movement : MonoBehaviour
             slideTimer = slideTime;
             invcTimer = invincibilityTime;
             if (moving) rb.AddForce(moveVector*slideForce, ForceMode.Impulse);
-            else rb.AddForce(orient.transform.forward * slideForce, ForceMode.Impulse);
+            else rb.AddForce(transform.forward * slideForce, ForceMode.Impulse);
         }
     }
 
