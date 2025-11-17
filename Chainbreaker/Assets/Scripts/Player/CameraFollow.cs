@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     public float lookDelay = 0.125f;
     public float sensitivity = 10;
     public Vector3 offset; // how far the camera is from the player
+    public int minVert, maxVert;
 
     private void Start()
     {
@@ -29,6 +30,8 @@ public class CameraFollow : MonoBehaviour
     {
         Vector2 inputVal = val.Get<Vector2>();
         //Debug.Log(inputVal);
+        //float x = Mathf.Clamp((inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
+        //float x = (inputVal.y * sensitivity) + transform.rotation.eulerAngles.x;
         player.transform.rotation = Quaternion.Euler(0f, (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y, 0f);
     }
 }

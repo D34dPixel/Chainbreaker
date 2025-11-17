@@ -88,7 +88,7 @@ public class Movement : MonoBehaviour
         }
 
         moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);          
-        if (moving)
+        if (moving || aiming)
         {
             Rotate();
         }
@@ -195,7 +195,7 @@ public class Movement : MonoBehaviour
 
                 if (aiming)
                 {
-                    speed /= 2;
+                    speed = defaultSpeed/2;
                 }
 
                 if (sprinting)
