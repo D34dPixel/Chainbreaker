@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     public float sensitivity = 10;
     public Vector3 offset; // how far the camera is from the player
     public int minVert, maxVert;
+    public bool aiming;
 
     private void Start()
     {

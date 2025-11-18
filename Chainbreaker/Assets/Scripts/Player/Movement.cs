@@ -26,9 +26,9 @@ public class Movement : MonoBehaviour
     public float invincibilityTime = 2;
     Vector3 slideDir;
 
-    [Header("Ground")]
-    public GameObject Camera;
-    public Vector3 standardOffeset;
+    [Header("Camera")]
+    public GameObject cam;
+    public Vector3 standardOffset;
 
 
     [Header("Ground")]
@@ -87,7 +87,8 @@ public class Movement : MonoBehaviour
             }
         }
 
-        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);          
+        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);
+        cam.GetComponent<CameraFollow>().aiming = aiming;
         if (moving || aiming)
         {
             Rotate();
@@ -193,15 +194,15 @@ public class Movement : MonoBehaviour
                 state = MoveState.walking;
                 speed = defaultSpeed;
 
-                if (aiming)
-                {
-                    speed = defaultSpeed/2;
-                }
-
                 if (sprinting)
                 {
                     state = MoveState.sprinting;
                     speed = sprintSpeed;
+                }
+
+                if (aiming)
+                {
+                    speed /= 2;
                 }
             }
 

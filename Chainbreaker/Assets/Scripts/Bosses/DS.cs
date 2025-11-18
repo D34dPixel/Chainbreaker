@@ -1,16 +1,47 @@
 using UnityEngine;
+using System.Collections;
 
 public class DS : Boss
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public bool startWeakened;
+
+    [Header("")]
+
+
+    public BossState state;
+    public enum BossState
     {
-        
+        idle,
+        teleporting,
+        weakened,
+        charging,
+        attacking
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        StartCoroutine(Teleport());
+    }
+
+    public void OnHit(float damage, bool weakSpot)
+    {
+        if (state == BossState.weakened)
+        {
+            StartCoroutine(Teleport());
+            damage *= 2;
+        }
+
+        if (weakSpot) damage *= 1.5f;
+
+        TakeDamage(damage);
+    }
+
+    IEnumerator Teleport()
+    {
+        state = BossState.teleporting;
+        a.SetTrigger("TPStart");
+        yield return new WaitForSeconds(1f);
+        //set new position elsewhere
+        a.SetTrigger("TPEnd");
     }
 }
