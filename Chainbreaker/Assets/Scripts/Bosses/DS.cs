@@ -3,24 +3,11 @@ using System.Collections;
 
 public class DS : Boss
 {
-    public bool startWeakened;
-
-    [Header("")]
-
-
-    public BossState state;
-    public enum BossState
-    {
-        idle,
-        teleporting,
-        weakened,
-        charging,
-        attacking
-    }
 
     private void Start()
     {
-        StartCoroutine(Teleport());
+        if (!startWeakened) StartCoroutine(Teleport());
+        else state = Boss.BossState.weakened;
     }
 
     public void OnHit(float damage, bool weakSpot)

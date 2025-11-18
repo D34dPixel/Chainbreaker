@@ -357,8 +357,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   health: 0
-  a: {fileID: 0}
+  startWeakened: 0
   state: 0
+  phases:
+  - name: Phase 1
+    recoveryTime: 1000
+    healthPercentToNextPhase: 50
+    attacks: []
+  - name: Phase 2
+    recoveryTime: 0
+    healthPercentToNextPhase: 0
+    attacks: []
+  currentPhase: 0
+  a: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1089,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   orient: {fileID: 1908075961}
   chara: {fileID: 688705967}
-  cam: {fileID: 143875412}
   defaultSpeed: 30
   sprintSpeed: 60
   defaultHealth: 6
@@ -1087,8 +1097,8 @@ MonoBehaviour:
   slideForce: 20
   slideTime: 1
   invincibilityTime: 2
-  Camera: {fileID: 0}
-  standardOffeset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 143875412}
+  standardOffset: {x: 0, y: 0, z: 0}
   raycastDist: 1
   ground:
     serializedVersion: 2
