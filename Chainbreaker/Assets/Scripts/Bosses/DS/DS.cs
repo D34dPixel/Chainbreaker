@@ -4,6 +4,7 @@ using Unity.Jobs;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine.Rendering;
+using UnityEngine.LightTransport;
 
 public class DS : Boss
 {
@@ -20,9 +21,13 @@ public class DS : Boss
         public Vector3[] positions;
     }
 
+    public GameObject player;
+
     [Header("Attacks")]
     public DSAttack[] attacks;
     public int chosenAttack;
+    public GameObject rock;
+    
 
     private void Start()
     {
@@ -33,7 +38,18 @@ public class DS : Boss
 
     private void FixedUpdate()
     {
-        if (state != BossState.weakened)
+        a.SetBool("Teleporting", state == BossState.teleporting);
+        a.SetBool("Weakened", state == BossState.weakened);
+
+        if (state == BossState.weakened)
+        {
+            recoveryTime -= Time.fixedDeltaTime;
+            if (recoveryTime <= 0)
+            {
+                state = BossState.idle;
+            }
+        }
+        if (state == BossState.idle)
         {
             attackTime -= Time.fixedDeltaTime;
             if (attackTime <= 0)
@@ -53,8 +69,14 @@ public class DS : Boss
             validAttack = true;
         }
 
-        StartCoroutine(Teleport(attacks[chosenAttack].positions[Random.Range(0,attacks[chosenAttack].positions.Length-1)]));
-        a.SetTrigger(string.Concat("Attack", chosenAttack - 1));
+        bool validPlacement = false;
+        foreach (Vector3 atkpos in attacks[chosenAttack].positions)
+            if (atkpos == transform.position) validPlacement = true;
+
+        if (!validPlacement || Random.Range(0,3) == 3) 
+            StartCoroutine(Teleport(attacks[chosenAttack].positions[Random.Range(0,attacks[chosenAttack].positions.Length-1)]));
+
+        a.SetInteger("Attack", chosenAttack);
 
         switch (chosenAttack)
         {
@@ -80,33 +102,46 @@ public class DS : Boss
     IEnumerator Teleport(Vector3 position)
     {
         state = BossState.teleporting;
-        a.SetTrigger("TPStart");
         yield return new WaitForSeconds(1f);
+        state = BossState.idle;
         transform.position = position;
-        a.SetTrigger("TPEnd");
     }
 
-    public IEnumerator ChargeAttack()
+    public IEnumerator ChargeAttack() //considered attack 0, uses phase mult 0 and 1
     {
-        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime);
+        int chargeCount = (int)phases[currentPhase].attackVariables[0];
+        float chargeSpeed = (int)phases[currentPhase].attackVariables[1];
 
-        a.SetTrigger("Attack");
+        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
+
+        a.SetTrigger("Attack!");
+        ResetAttackTime();
+    }
+
+    public IEnumerator SlamAttack() //attack 1
+    {
+        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
+        a.SetTrigger("Attack!");
 
         ResetAttackTime();
     }
 
-    public IEnumerator SlamAttack()
+    public IEnumerator YellAttack() // attack 2, uses phase mult 2, 3 4
     {
-        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime);
-        a.SetTrigger("Attack");
+        int rockCount = (int)phases[currentPhase].attackVariables[2];
+        float rockSpeed = phases[currentPhase].attackVariables[3];
+        float rockSpawnSpeed = phases[currentPhase].attackVariables[4];
 
-        ResetAttackTime();
-    }
+        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
+        a.SetTrigger("Attack!");
 
-    public IEnumerator YellAttack()
-    {
-        yield return new WaitForSeconds(attacks[chosenAttack].chargeTime);
-        a.SetTrigger("Attack");
+        for (int i = 0; i < rockCount; i++)
+        {
+            Vector3 rockTarget = (player.transform.position + player.transform.up * 100);
+            GameObject rockGO = Instantiate(rock, rockTarget, Quaternion.identity);
+            rockGO.GetComponent<FallingRock>().target = rockTarget;
+            yield return new WaitForSeconds(rockSpawnSpeed);
+        }
 
         ResetAttackTime();
     }

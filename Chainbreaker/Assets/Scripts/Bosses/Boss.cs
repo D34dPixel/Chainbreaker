@@ -6,18 +6,20 @@ public class Boss : MonoBehaviour
     [System.Serializable]
     public class BossPhase
     {
+        public string name;
         public float attackTimer;
         public float attackTimerVariation;
-        public string name;
         public float recoveryTime;
+        public float chargeTimeMult;
         public int healthPercentToNextPhase;
-        public float[] attackMultiplier;
+        public float[] attackVariables;
     }
 
     [Header("Stats")]
     public int maxHealth;
     public float health;
     public float attackTime;
+    public float recoveryTime;
 
     [Header("State")]
     public bool startWeakened;

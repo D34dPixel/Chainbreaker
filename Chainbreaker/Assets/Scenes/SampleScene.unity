@@ -333,7 +333,7 @@ Transform:
   m_GameObject: {fileID: 299099272}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 15}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -357,24 +357,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   health: 0
-  attackTime: 0
+  attackTime: 100
+  recoveryTime: 0
   startWeakened: 0
   state: 0
   phases:
-  - attackTimer: 0
-    attackTimerVariation: 0
-    name: Phase 1
+  - name: Phase 1
+    attackTimer: 200
+    attackTimerVariation: 50
     recoveryTime: 1000
+    chargeTimeMult: 1
     healthPercentToNextPhase: 50
-  - attackTimer: 0
-    attackTimerVariation: 0
-    name: Phase 2
+    attackVariables: []
+  - name: Phase 2
+    attackTimer: 100
+    attackTimerVariation: 15
     recoveryTime: 500
+    chargeTimeMult: 0.75
     healthPercentToNextPhase: 0
+    attackVariables: []
   currentPhase: 0
   a: {fileID: 0}
-  attacks: []
+  player: {fileID: 0}
+  attacks:
+  - name: Charge
+    chargeTime: 0
+    minDistFromPlayer: 0
+    maxDistFromPlayer: 0
+    hitboxes: []
+    hurtBoxes: []
+    weakBoxes: []
+    positions:
+    - {x: 25, y: 1, z: 25}
+    - {x: -25, y: 1, z: 25}
+    - {x: -25, y: 1, z: -25}
+    - {x: 25, y: 1, z: -25}
+  - name: Slam
+    chargeTime: 0
+    minDistFromPlayer: 0
+    maxDistFromPlayer: 0
+    hitboxes: []
+    hurtBoxes: []
+    weakBoxes: []
+    positions:
+    - {x: 0, y: 1, z: 0}
+  - name: Yell
+    chargeTime: 0
+    minDistFromPlayer: 0
+    maxDistFromPlayer: 0
+    hitboxes: []
+    hurtBoxes: []
+    weakBoxes: []
+    positions:
+    - {x: 0, y: 3, z: 0}
   chosenAttack: 0
+  rock: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +823,7 @@ Transform:
   m_GameObject: {fileID: 1471712365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1231,7 +1268,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1962751841
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1284,7 +1321,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962751839}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1962751843
 Transform:
   m_ObjectHideFlags: 0
