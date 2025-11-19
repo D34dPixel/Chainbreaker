@@ -357,19 +357,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   health: 0
+  attackTime: 0
   startWeakened: 0
   state: 0
   phases:
-  - name: Phase 1
+  - attackTimer: 0
+    attackTimerVariation: 0
+    name: Phase 1
     recoveryTime: 1000
     healthPercentToNextPhase: 50
-    attacks: []
-  - name: Phase 2
-    recoveryTime: 0
+  - attackTimer: 0
+    attackTimerVariation: 0
+    name: Phase 2
+    recoveryTime: 500
     healthPercentToNextPhase: 0
-    attacks: []
   currentPhase: 0
   a: {fileID: 0}
+  attacks: []
+  chosenAttack: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

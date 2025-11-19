@@ -2,31 +2,22 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    [System.Serializable]
-    public class BossAttack
-    {
-        public string name;
-        public bool useable;
-        public float chargeTime;
-        public float minDistFromPlayer;
-        public float maxDistFromPlayer;
-        public GameObject[] hitboxes; //boxes where the player can hit
-        public GameObject[] hurtBoxes; //boxes where the player can GET hit
-        public GameObject[] weakBoxes; //boxes where double damage is applied
-    }
-
+    
     [System.Serializable]
     public class BossPhase
     {
+        public float attackTimer;
+        public float attackTimerVariation;
         public string name;
         public float recoveryTime;
         public int healthPercentToNextPhase;
-        public BossAttack[] attacks;
+        public float[] attackMultiplier;
     }
 
     [Header("Stats")]
     public int maxHealth;
     public float health;
+    public float attackTime;
 
     [Header("State")]
     public bool startWeakened;
@@ -61,7 +52,6 @@ public class Boss : MonoBehaviour
                 currentPhase++;
         }
     }
-
     public virtual void Attack()
     {
         Debug.Log("Attack");
