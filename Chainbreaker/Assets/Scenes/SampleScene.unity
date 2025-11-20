@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 143875418}
   m_Layer: 7
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,8 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera
   player: {fileID: 1908075961}
-  lookDelay: 0.25
-  sensitivity: 10
+  lookDelay: 0.9
+  sensitivity: 5
   offset: {x: 0, y: 2.5, z: -5}
   minVert: -35
   maxVert: 45
@@ -333,7 +333,7 @@ Transform:
   m_GameObject: {fileID: 299099272}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -357,52 +357,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   health: 0
-  attackTime: 100
+  attackTime: 5
   recoveryTime: 0
+  attackCount: 0
   startWeakened: 0
   state: 0
   phases:
   - name: Phase 1
-    attackTimer: 200
-    attackTimerVariation: 50
+    attackTimer: 5
+    attackTimerVariation: 2
     recoveryTime: 1000
     chargeTimeMult: 1
+    attacksToWeaken: 3
     healthPercentToNextPhase: 50
-    attackVariables: []
+    attackVariables:
+    - 1
+    - 5
+    - 10
+    - 7
+    - 4
+    - 1
+    idlePositions:
+    - {x: 0, y: 5, z: 0}
   - name: Phase 2
-    attackTimer: 100
-    attackTimerVariation: 15
+    attackTimer: 2
+    attackTimerVariation: 1
     recoveryTime: 500
     chargeTimeMult: 0.75
+    attacksToWeaken: 7
     healthPercentToNextPhase: 0
-    attackVariables: []
+    attackVariables:
+    - 3
+    - 2
+    - 15
+    - 5
+    - 2
+    - 0.75
+    idlePositions:
+    - {x: 0, y: 5, z: 0}
   currentPhase: 0
   a: {fileID: 0}
-  player: {fileID: 0}
+  player: {fileID: 1959613109}
   attacks:
   - name: Charge
-    chargeTime: 0
+    chargeTime: 3
+    attackTime: 3
     minDistFromPlayer: 0
     maxDistFromPlayer: 0
     hitboxes: []
     hurtBoxes: []
     weakBoxes: []
     positions:
-    - {x: 25, y: 1, z: 25}
-    - {x: -25, y: 1, z: 25}
-    - {x: -25, y: 1, z: -25}
-    - {x: 25, y: 1, z: -25}
+    - {x: 25, y: 2, z: 25}
+    - {x: -25, y: 2, z: 25}
+    - {x: -25, y: 2, z: -25}
+    - {x: 25, y: 2, z: -25}
   - name: Slam
-    chargeTime: 0
-    minDistFromPlayer: 0
-    maxDistFromPlayer: 0
-    hitboxes: []
-    hurtBoxes: []
-    weakBoxes: []
-    positions:
-    - {x: 0, y: 1, z: 0}
-  - name: Yell
-    chargeTime: 0
+    chargeTime: 5
+    attackTime: 5
     minDistFromPlayer: 0
     maxDistFromPlayer: 0
     hitboxes: []
@@ -410,8 +422,18 @@ MonoBehaviour:
     weakBoxes: []
     positions:
     - {x: 0, y: 3, z: 0}
+  - name: Yell
+    chargeTime: 5
+    attackTime: 5
+    minDistFromPlayer: 0
+    maxDistFromPlayer: 0
+    hitboxes: []
+    hurtBoxes: []
+    weakBoxes: []
+    positions:
+    - {x: 0, y: 5, z: 0}
   chosenAttack: 0
-  rock: {fileID: 0}
+  rock: {fileID: 7545575271890918708, guid: 0380361ef3bed8a408859b9b26603c83, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +568,7 @@ GameObject:
   - component: {fileID: 688705972}
   m_Layer: 7
   m_Name: Sprites
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -692,6 +714,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &859366268
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_Name
+      value: Warning Ring
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+    - {fileID: -8700617353114198275, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b238e395d0866424681d091e967fb5b9, type: 3}
 --- !u!1 &1113981699
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,7 +902,7 @@ GameObject:
   - component: {fileID: 1471712366}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1008,7 +1101,7 @@ GameObject:
   - component: {fileID: 1908075963}
   m_Layer: 7
   m_Name: Orientation
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,7 +1115,7 @@ Transform:
   m_GameObject: {fileID: 1908075961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1096,7 +1189,7 @@ GameObject:
   - component: {fileID: 1959613115}
   m_Layer: 7
   m_Name: Movement
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1110,7 +1203,7 @@ Transform:
   m_GameObject: {fileID: 1959613109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1346,3 +1439,4 @@ SceneRoots:
   - {fileID: 1962751843}
   - {fileID: 1471712366}
   - {fileID: 299099273}
+  - {fileID: 859366268}

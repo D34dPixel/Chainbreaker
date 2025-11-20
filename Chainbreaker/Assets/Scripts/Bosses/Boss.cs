@@ -11,8 +11,10 @@ public class Boss : MonoBehaviour
         public float attackTimerVariation;
         public float recoveryTime;
         public float chargeTimeMult;
+        public int attacksToWeaken;
         public int healthPercentToNextPhase;
         public float[] attackVariables;
+        public Vector3[] idlePositions;
     }
 
     [Header("Stats")]
@@ -20,6 +22,7 @@ public class Boss : MonoBehaviour
     public float health;
     public float attackTime;
     public float recoveryTime;
+    public int attackCount;
 
     [Header("State")]
     public bool startWeakened;
