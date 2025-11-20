@@ -29,6 +29,7 @@ public class DS : Boss
     public DSAttack[] attacks;
     public int chosenAttack;
     public GameObject rock;
+    public GameObject warningRing;
     
 
     private void Start()
@@ -59,10 +60,13 @@ public class DS : Boss
         if (state == BossState.idle || state == BossState.charging)
         {
             transform.LookAt(player.transform, Vector3.up);
-            attackTime -= Time.fixedDeltaTime;
-            if (attackTime <= 0)
+            if (state == BossState.idle)
             {
-                Attack();
+                attackTime -= Time.fixedDeltaTime;
+                if (attackTime <= 0)
+                {
+                    Attack();
+                }
             }
         }
     }
@@ -163,7 +167,7 @@ public class DS : Boss
     public IEnumerator YellAttack() // attack 2, uses phase mult 2, 3 4
     {
         int rockCount = (int)phases[currentPhase].attackVariables[2];
-        float rockSpeed = phases[currentPhase].attackVariables[3];
+        float rockMass = phases[currentPhase].attackVariables[3];
         float rockSpawnSpeed = phases[currentPhase].attackVariables[4];
 
         yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
@@ -175,12 +179,15 @@ public class DS : Boss
         for (int i = 0; i < rockCount; i++)
         {
             yield return new WaitForSeconds(rockSpawnSpeed);
-            Vector3 rockSpawn = (player.transform.position + (Vector3.up * 100));
+            Vector3 spawnPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+            Vector3 rockSpawn = (spawnPos + (Vector3.up * 100));
             GameObject rockGO = Instantiate(rock, rockSpawn, Quaternion.identity);
-            
-        }
+           
+            rockGO.GetComponent<Rigidbody>().mass = rockMass;
 
-        yield return new WaitForSeconds(attacks[2].attackTime);
+            GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.identity);
+            rockGO.GetComponent<FallingRock>().warningRing = ring;
+        }
 
         ResetAttackTime();
     }

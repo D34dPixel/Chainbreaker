@@ -1,41 +1,44 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallingRock : MonoBehaviour
 {
     public int damage;
-    public Vector3 target;
     public float destroyTime;
+    bool floored = false;
+    public GameObject breakParticles;
+    public GameObject warningRing;
 
-    void Update()
-    {
-        if (transform.position.y == GetComponent<SphereCollider>().radius)
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            destroyTime -= Time.deltaTime;
-        }
-
-        if (destroyTime <= 0)
-            Break();
-            
-    }
-
-    private void OnCollisionEnter(Collision col)
+    private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Projectile")
         {
-            Break();
-            col.gameObject.GetComponent<FallingRock>().Break();
+            if (floored || col.gameObject.GetComponent<FallingRock>().floored)
+            {
+                Break();
+                col.gameObject.GetComponent<FallingRock>().Break();
+            }
         }
 
         else if (col.gameObject.tag == "Player")
         {
-            Break();
-            col.gameObject.GetComponent<Movement>().TakeDamage(damage);
+            if (!floored)
+            {
+                Break();
+                col.gameObject.GetComponent<Movement>().TakeDamage(damage);
+            }
         }
+
+        else
+            Break();
     }
+
 
     void Break()
     {
-        Destroy(this.gameObject);
+        GameObject particles = Instantiate(breakParticles, gameObject.transform.position, Quaternion.identity);
+        Destroy(particles, 5f);
+        Destroy(gameObject);
+        Destroy(warningRing);
     }
 }
