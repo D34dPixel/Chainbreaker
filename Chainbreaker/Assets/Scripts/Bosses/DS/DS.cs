@@ -22,7 +22,7 @@ public class DS : Boss
         public Vector3[] positions;
     }
 
-    bool charging;
+    bool charging, weakened;
     public GameObject player;
 
     [Header("Attacks")]
@@ -46,15 +46,18 @@ public class DS : Boss
     {
         a.SetBool("Teleporting", state == BossState.teleporting);
         a.SetBool("Charging", charging);
-        a.SetBool("Weakened", state == BossState.weakened);
+        a.SetBool("Weakened", weakened);
 
-        if (state == BossState.weakened)
+
+        if (weakened)
         {
+            state = BossState.weakened;
             transform.rotation = Quaternion.identity;
             recoveryTime -= Time.fixedDeltaTime;
             if (recoveryTime <= 0)
             {
                 state = BossState.idle;
+                weakened = false;
             }
         }
         if (state == BossState.idle || state == BossState.charging)
@@ -73,11 +76,13 @@ public class DS : Boss
 
     public override void Attack()
     {
+        state = BossState.charging;
+
         bool validAttack = false;
         while (!validAttack)
         {
-            //chosenAttack = Random.Range(0, attacks.Length);
-            chosenAttack = 2;
+            chosenAttack = Random.Range(0, attacks.Length);
+            //chosenAttack = ;
             //check if player in range;
             validAttack = true;
         }
@@ -119,6 +124,8 @@ public class DS : Boss
         yield return new WaitForSeconds(1f);
         if (charging)
             state = BossState.charging;
+        else if (weakened)
+            state = BossState.weakened;
         else
             state = BossState.idle;
         transform.position = position;
@@ -138,7 +145,19 @@ public class DS : Boss
             a.SetTrigger("Attack!");
             state = BossState.attacking;
 
-            yield return new WaitForSeconds(attacks[0].attackTime * phases[currentPhase].attackVariables[5]);
+            float chargeTime = 100;
+            float chargingTime = 0;
+            Vector3 targetPosition = transform.position + transform.forward * phases[currentPhase].attackVariables[5];
+
+            Debug.Log(targetPosition.ToString());
+
+            while (chargingTime < chargeTime)
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPosition, chargingTime/chargeTime);
+                chargingTime++;
+                yield return new WaitForSeconds(1);
+            }
+
 
             if (i + 1 < chargeCount)
             {
@@ -179,13 +198,13 @@ public class DS : Boss
         for (int i = 0; i < rockCount; i++)
         {
             yield return new WaitForSeconds(rockSpawnSpeed);
-            Vector3 spawnPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+            Vector3 spawnPos = new Vector3(player.transform.position.x, 1, player.transform.position.z);
             Vector3 rockSpawn = (spawnPos + (Vector3.up * 100));
             GameObject rockGO = Instantiate(rock, rockSpawn, Quaternion.identity);
            
             rockGO.GetComponent<Rigidbody>().mass = rockMass;
 
-            GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.identity);
+            GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.Euler(90,0,0));
             rockGO.GetComponent<FallingRock>().warningRing = ring;
         }
 
@@ -194,12 +213,14 @@ public class DS : Boss
 
     void ResetAttackTime()
     {
+        a.ResetTrigger("Attack!");
         a.SetTrigger("End Attack");
         attackCount++;
         if (attackCount >= phases[currentPhase].attacksToWeaken)
         {
             attackCount = 0;
             state = BossState.weakened;
+            weakened = true;
         }
         else
         {

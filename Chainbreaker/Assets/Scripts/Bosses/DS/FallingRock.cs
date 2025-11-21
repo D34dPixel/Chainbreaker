@@ -8,7 +8,6 @@ public class FallingRock : MonoBehaviour
     bool floored = false;
     public GameObject breakParticles;
     public GameObject warningRing;
-
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Projectile")
@@ -36,7 +35,7 @@ public class FallingRock : MonoBehaviour
 
     void Break()
     {
-        GameObject particles = Instantiate(breakParticles, gameObject.transform.position, Quaternion.identity);
+        GameObject particles = Instantiate(breakParticles, gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
         Destroy(particles, 5f);
         Destroy(gameObject);
         Destroy(warningRing);

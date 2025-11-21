@@ -376,7 +376,7 @@ MonoBehaviour:
     - 3
     - 5
     - 2
-    - 1
+    - 40
     idlePositions:
     - {x: 0, y: 5, z: 0}
   - name: Phase 2
@@ -392,7 +392,7 @@ MonoBehaviour:
     - 7
     - 10
     - 1
-    - 0.75
+    - 20
     idlePositions:
     - {x: 0, y: 5, z: 0}
   currentPhase: 0
@@ -421,7 +421,7 @@ MonoBehaviour:
     hurtBoxes: []
     weakBoxes: []
     positions:
-    - {x: 0, y: 3, z: 0}
+    - {x: 0, y: 2.5, z: 0}
   - name: Yell
     chargeTime: 2
     attackTime: 5
