@@ -376,7 +376,7 @@ MonoBehaviour:
     - 3
     - 5
     - 2
-    - 40
+    - 70
     idlePositions:
     - {x: 0, y: 5, z: 0}
   - name: Phase 2
@@ -392,7 +392,7 @@ MonoBehaviour:
     - 7
     - 10
     - 1
-    - 20
+    - 40
     idlePositions:
     - {x: 0, y: 5, z: 0}
   currentPhase: 0

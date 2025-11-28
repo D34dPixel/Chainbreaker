@@ -82,7 +82,7 @@ public class DS : Boss
         while (!validAttack)
         {
             chosenAttack = Random.Range(0, attacks.Length);
-            //chosenAttack = ;
+            //chosenAttack = 0;
             //check if player in range;
             validAttack = true;
         }
@@ -138,24 +138,29 @@ public class DS : Boss
 
         for (int i = 0; i < chargeCount; i++)
         {
-            yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
+            yield return new WaitForSeconds((attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult)/(2*(i+1)));
             charging = false;
 
 
             a.SetTrigger("Attack!");
+            yield return new WaitForSeconds(0.25f);
             state = BossState.attacking;
 
             float chargeTime = 100;
             float chargingTime = 0;
-            Vector3 targetPosition = transform.position + transform.forward * phases[currentPhase].attackVariables[5];
+            Vector3 targetPosition = transform.position + transform.forward * phases[currentPhase].attackVariables[5] + player.transform.up;
+            Vector3 currentPos = transform.position;
+
+            while (targetPosition.y < 2)
+                targetPosition += Vector3.up;
 
             Debug.Log(targetPosition.ToString());
 
             while (chargingTime < chargeTime)
             {
-                transform.position = Vector3.Lerp(transform.position, targetPosition, chargingTime/chargeTime);
+                transform.position = Vector3.Lerp(currentPos, targetPosition, chargingTime/chargeTime);
                 chargingTime++;
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.01f);
             }
 
 
@@ -163,6 +168,7 @@ public class DS : Boss
             {
                 a.SetTrigger("Recharge");
                 charging = true;
+                state = BossState.charging;
             }
 
         }
