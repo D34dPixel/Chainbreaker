@@ -203,15 +203,18 @@ public class DS : Boss
 
         for (int i = 0; i < rockCount; i++)
         {
-            yield return new WaitForSeconds(rockSpawnSpeed);
             Vector3 spawnPos = new Vector3(player.transform.position.x, 1, player.transform.position.z);
             Vector3 rockSpawn = (spawnPos + (Vector3.up * 100));
             GameObject rockGO = Instantiate(rock, rockSpawn, Quaternion.identity);
            
             rockGO.GetComponent<Rigidbody>().mass = rockMass;
 
-            GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.Euler(90,0,0));
-            rockGO.GetComponent<FallingRock>().warningRing = ring;
+            if (warningRing != null)
+            {
+                GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.Euler(90, 0, 0));
+                rockGO.GetComponent<FallingRock>().warningRing = ring;
+            }
+            yield return new WaitForSeconds(rockSpawnSpeed);
         }
 
         ResetAttackTime();

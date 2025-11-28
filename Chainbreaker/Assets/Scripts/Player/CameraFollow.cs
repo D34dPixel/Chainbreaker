@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -23,8 +24,6 @@ public class CameraFollow : MonoBehaviour
         transform.position = pos;
 
         transform.LookAt(player.transform);
-
-        
     }
 
     public void OnRotate(InputValue val)
@@ -33,6 +32,18 @@ public class CameraFollow : MonoBehaviour
         //Debug.Log(inputVal);
         //float x = Mathf.Clamp((inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
         //float x = (inputVal.y * sensitivity) + transform.rotation.eulerAngles.x;
-        player.transform.rotation = Quaternion.Euler(0f, (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y, 0f);
+
+        StopAllCoroutines();
+        StartCoroutine(RotatePlayer(0f, (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y));
+    }
+
+    public IEnumerator RotatePlayer(float newX, float newY)
+    {
+        for (int i = 0; player.transform.rotation.y != newY; i++)
+        {
+            Quaternion wantRot = Quaternion.Euler(newX, newY, 0);
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, wantRot, 0.125f);
+            yield return new WaitForSeconds(1);
+        }
     }
 }
