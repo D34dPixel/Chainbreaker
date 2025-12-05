@@ -230,6 +230,7 @@ public class DS : Boss
             attackCount = 0;
             state = BossState.weakened;
             weakened = true;
+            recoveryTime = phases[currentPhase].recoveryTime;
         }
         else
         {
