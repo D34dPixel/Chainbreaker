@@ -29,12 +29,12 @@ public class CameraFollow : MonoBehaviour
     public void OnRotate(InputValue val)
     {
         Vector2 inputVal = val.Get<Vector2>();
-        //Debug.Log(inputVal);
+        Debug.Log(inputVal);
         //float x = Mathf.Clamp((inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
-        //float x = (inputVal.y * sensitivity) + transform.rotation.eulerAngles.x;
+        float y = (inputVal.x * sensitivity) +transform.rotation.eulerAngles.y;
 
         StopAllCoroutines();
-        StartCoroutine(RotatePlayer(0f, (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y));
+        StartCoroutine(RotatePlayer(0, y));
     }
 
     public IEnumerator RotatePlayer(float newX, float newY)
