@@ -211,7 +211,7 @@ public class DS : Boss
 
             if (warningRing != null)
             {
-                GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.Euler(90, 0, 0));
+                GameObject ring = Instantiate(warningRing, spawnPos, Quaternion.identity);
                 rockGO.GetComponent<FallingRock>().warningRing = ring;
             }
             yield return new WaitForSeconds(rockSpawnSpeed);
