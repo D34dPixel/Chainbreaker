@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections;
 using Unity.Jobs;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UnityEngine.Rendering;
 using UnityEngine.LightTransport;
+using UnityEngine.UI;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using Unity.VisualScripting;
 
 public class DS : Boss
 {
@@ -16,9 +18,7 @@ public class DS : Boss
         public float attackTime;
         public float minDistFromPlayer;
         public float maxDistFromPlayer;
-        public GameObject[] hitboxes; //boxes where the player can hit
-        public GameObject[] hurtBoxes; //boxes where the player can GET hit
-        public GameObject[] weakBoxes; //boxes where double damage is applied
+        public Vector3 hitboxSize;
         public Vector3[] positions;
     }
 
@@ -30,15 +30,27 @@ public class DS : Boss
     public int chosenAttack;
     public GameObject rock;
     public GameObject warningRing;
+
+    [Header("Battery")]
+    public int maxBattery;
+    int batteryCharge;
+    public GameObject[] batteries;
+
+    [Header("Health")]
+    public GameObject[] hearts;
     
 
     private void Start()
     {
         a = GetComponentInChildren<Animator>();
         if (!startWeakened) Attack();
-        else state = Boss.BossState.weakened;
+        else state = BossState.weakened;
 
         attackTime = attackTime = phases[currentPhase].attackTimer;
+
+        batteryCharge = maxBattery;
+        health = phases[currentPhase].maxHealth;
+        DisplayStats();
 
     }
 
@@ -58,6 +70,8 @@ public class DS : Boss
             {
                 state = BossState.idle;
                 weakened = false;
+                batteryCharge = maxBattery;
+                DisplayStats();
             }
         }
         if (state == BossState.idle || state == BossState.charging)
@@ -224,10 +238,10 @@ public class DS : Boss
     {
         a.ResetTrigger("Attack!");
         a.SetTrigger("End Attack");
-        attackCount++;
-        if (attackCount >= phases[currentPhase].attacksToWeaken)
+        batteryCharge--;
+        DisplayStats();
+        if (batteryCharge <= 0)
         {
-            attackCount = 0;
             state = BossState.weakened;
             weakened = true;
             recoveryTime = phases[currentPhase].recoveryTime;
@@ -235,9 +249,54 @@ public class DS : Boss
         else
         {
             state = BossState.idle;
-            StartCoroutine(Teleport(phases[currentPhase].idlePositions[Random.Range(0, phases[currentPhase].idlePositions.Length - 1)]));
         }
+        if (Random.Range(0,2) != 0)
+            StartCoroutine(Teleport(phases[currentPhase].idlePositions[Random.Range(0, phases[currentPhase].idlePositions.Length - 1)]));
+
         float timerAddon = Random.Range(-phases[currentPhase].attackTimerVariation, phases[currentPhase].attackTimerVariation);
         attackTime = phases[currentPhase].attackTimer + timerAddon;
+    }
+
+    void DisplayStats()
+    {
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        
+        if (batteryCharge > maxBattery)
+        {
+            batteryCharge = maxBattery;
+        }
+
+
+        foreach (GameObject health in hearts)
+            health.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < health; i++)
+            hearts[i].GetComponent<Image>().enabled = true;
+
+        foreach (GameObject battery in batteries)
+            battery.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < batteryCharge; i++)
+            batteries[i].GetComponent<Image>().enabled = true;
+    }
+    public override IEnumerator AdvancePhase()
+    {
+        maxBattery *= 2;
+
+        while (batteryCharge < maxBattery && health < maxHealth)
+        {
+            batteryCharge++;
+            health++;
+            DisplayStats();
+            attackTime = phases[currentPhase].attackTimer;
+            yield return new WaitForSeconds(1f);
+            batteryCharge++;
+            DisplayStats();
+            yield return new WaitForSeconds(1f);
+        }
+        currentPhase++;
     }
 }
