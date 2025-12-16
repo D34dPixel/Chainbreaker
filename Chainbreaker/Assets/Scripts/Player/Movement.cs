@@ -88,7 +88,7 @@ public class Movement : MonoBehaviour
 
         if (state == MoveState.inAir)
         {
-            if (transform.position.y < -10)
+            if (transform.position.y < -25)
             {
                 TakeDamage();
             }
