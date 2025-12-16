@@ -29,7 +29,9 @@ public class LoopManager : MonoBehaviour
         Loop.SetActive(true);
         while (FadeScreen.GetComponent<Image>().color.a < 1)
         {
-            FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, Mathf.Lerp(FadeScreen.GetComponent<Image>().color.a, 1, 0.125f));
+            FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, Mathf.Lerp(FadeScreen.GetComponent<Image>().color.a, 1, 0.1f));
+            if (FadeScreen.GetComponent<Image>().color.a > 0.9)
+                FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, 1);
             yield return new WaitForSecondsRealtime(0.1f);
         }
         yield return new WaitForSecondsRealtime(2);
@@ -44,7 +46,9 @@ public class LoopManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(3);
         while (FadeScreen.GetComponent<Image>().color.a > 0)
         {
-            FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, Mathf.Lerp(0, FadeScreen.GetComponent<Image>().color.a, 0.875f));
+            FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, Mathf.Lerp(0, FadeScreen.GetComponent<Image>().color.a, 0.9f));
+            if (FadeScreen.GetComponent<Image>().color.a < 0.1)
+                FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             yield return new WaitForSecondsRealtime(0.05f);
         }
         Loop.SetActive(false);
