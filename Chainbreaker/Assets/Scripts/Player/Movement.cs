@@ -282,4 +282,9 @@ public class Movement : MonoBehaviour
         for (int i = 0; i < bulletCount; i++)
             bullets[i].GetComponent<Image>().enabled = true;
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Hurtbox")
+            TakeDamage();
+    }
 }
