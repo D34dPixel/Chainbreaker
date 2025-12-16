@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -10,12 +11,11 @@ public class Movement : MonoBehaviour
     [Header("Stats")]
     public int defaultSpeed = 20;
     public int sprintSpeed = 50;
-    public int defaultHealth = 5;
     public int jumpForce = 10;
-
+    public int maxHealth = 3;
     int health;
     int speed;
-    float jumpTimer;
+    public GameObject[] hearts;
 
     [Header("Sliding")]
     public int slideSpeed = 20;
@@ -26,22 +26,31 @@ public class Movement : MonoBehaviour
     public float invincibilityTime = 2;
     Vector3 slideDir;
 
-    [Header("Ground")]
-    public GameObject Camera;
-    public Vector3 standardOffeset;
+    [Header("Camera")]
+    public GameObject cam;
+    public Vector3 standardOffset;
 
+    [Header("Bullets")]
+    public int maxBullets;
+    int bulletCount;
+    public GameObject[] bullets;
+    public float maxShootCD;
+    float shootCD;
+    public float maxReloadTime;
+    float reloadTime;
 
     [Header("Ground")]
     public float raycastDist;
     public LayerMask ground;
     public float groundDrag = 2f;
     public float airResistance = 10f;
+    float jumpTimer;
 
     Vector3 moveInputs;
     Vector3 moveVector;
 
     //Action bools
-    bool moving,sprinting,grounded,jumping,falling,shooting,sliding,aiming,facingRight,invincible;
+    bool moving,sprinting,grounded,jumping,falling,shooting,sliding,aiming,facingRight,invincible,reloading;
 
     Animator a;
     Rigidbody rb;
@@ -54,16 +63,23 @@ public class Movement : MonoBehaviour
         walking,
         sprinting,
         sliding,
-        inAir
+        inAir,
+        reloading
     }
     private void Start()
     {
         a = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
-        health = defaultHealth;
+        health = maxHealth;
+        bulletCount = maxBullets;
+        reloadTime = maxReloadTime;
+        DisplayStats();
     }
     private void FixedUpdate()
     {
+
+        shootCD -= Time.fixedDeltaTime;
+
         if (state == MoveState.sliding)
         {
             slideTimer -= Time.fixedDeltaTime;
@@ -72,7 +88,6 @@ public class Movement : MonoBehaviour
                 EndSlide();
             }
         }
-
         invcTimer -= Time.fixedDeltaTime;
         if (invcTimer <= 0)
         {
@@ -81,14 +96,38 @@ public class Movement : MonoBehaviour
 
         if (state == MoveState.inAir)
         {
+            if (transform.position.y < -25)
+            {
+                TakeDamage();
+                transform.position = Vector3.up;
+            }
             if (rb.linearVelocity.y <= 0)
             {
                 EndJump();
             }
         }
 
-        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);          
-        if (moving)
+        if (state == MoveState.reloading)
+        {
+            if (bulletCount < maxBullets)
+            {
+                reloadTime-= Time.fixedDeltaTime;
+                if (reloadTime <= 0)
+                {
+                    bulletCount++;
+                    DisplayStats();
+                    reloadTime = maxReloadTime;
+                }
+            }
+            else
+            {
+                reloading = false;
+            }
+        }
+
+        moving = (moveVector != Vector3.zero && state != MoveState.inAir && state != MoveState.sliding);
+        cam.GetComponent<CameraFollow>().aiming = aiming;
+        if (moving || aiming)
         {
             Rotate();
         }
@@ -102,6 +141,7 @@ public class Movement : MonoBehaviour
         a.SetBool("Sliding", sliding);
         a.SetBool("Falling", falling);
         a.SetBool("Aiming", aiming);
+        a.SetBool("Reload", reloading);
 
         if (state == MoveState.inAir)
             rb.AddForce(moveVector.normalized * speed * airResistance, ForceMode.Force);
@@ -126,18 +166,17 @@ public class Movement : MonoBehaviour
     public void OnMove(InputValue moveVal)
     {
         moveInputs = moveVal.Get<Vector2>();
-        moveVector = (moveInputs.y*orient.transform.forward + orient.transform.right * moveInputs.x);
+        moveVector = (moveInputs.y * transform.forward.normalized + transform.right.normalized * moveInputs.x);
 
-        if (moveInputs.x < 0) facingRight = true;
+        if (moveInputs.x < 0 && !aiming) facingRight = true;
         else if (moveInputs.x > 0) facingRight = false;
         GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
     }
 
     public void Rotate()
     {
-        rb.rotation = orient.transform.rotation;
-        //orient.transform.localRotation = Quaternion.identity;
-        moveVector = (moveInputs.y * orient.transform.forward + orient.transform.right * moveInputs.x);
+        rb.rotation = Quaternion.Euler(0, orient.transform.eulerAngles.y, 0);
+        moveVector = (moveInputs.y * transform.forward.normalized + transform.right.normalized * moveInputs.x);
     }
 
     public void OnSprint()
@@ -148,6 +187,14 @@ public class Movement : MonoBehaviour
     public void OnAim()
     {
         aiming = !aiming;
+        facingRight = false;
+        GetComponentInChildren<SpriteRenderer>().flipX = false;
+    }
+
+    public void OnReload()
+    {
+        if (bulletCount < maxBullets)
+            reloading = true;
     }
 
     public void OnJump()
@@ -187,9 +234,16 @@ public class Movement : MonoBehaviour
         {
             state = MoveState.idle;
             falling = false;
-
-            if (moving)
+            
+            if (reloading)
             {
+                speed = 0;
+                state = MoveState.reloading;
+            }
+
+            else if (moving)
+            {
+                reloading = false;
                 state = MoveState.walking;
                 speed = defaultSpeed;
 
@@ -197,8 +251,7 @@ public class Movement : MonoBehaviour
                 {
                     speed /= 2;
                 }
-
-                if (sprinting)
+                else if (sprinting)
                 {
                     state = MoveState.sprinting;
                     speed = sprintSpeed;
@@ -207,6 +260,7 @@ public class Movement : MonoBehaviour
 
             if (sliding)
             {
+                reloading = false;
                 moving = false;
                 speed = slideSpeed;
                 state = MoveState.sliding;
@@ -214,6 +268,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            reloading = false;
             moving = false;
             state = MoveState.inAir;
         }
@@ -234,9 +289,57 @@ public class Movement : MonoBehaviour
         falling = true;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage()
     {
         if (!invincible)
             health--;
+        if (health <= 0)
+        {
+            StartCoroutine(LoopManager.instance.FadeIn());
+        }
+        DisplayStats();
+    }
+
+    void DisplayStats()
+    {
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        if (bulletCount > maxBullets)
+        {
+            bulletCount = maxBullets;
+        }
+
+
+        foreach (GameObject health in hearts)
+            health.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < health; i++)
+            hearts[i].GetComponent<Image>().enabled = true;
+
+        foreach (GameObject battery in bullets)
+            battery.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < bulletCount; i++)
+            bullets[i].GetComponent<Image>().enabled = true;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Hurtbox")
+            TakeDamage();
+    }
+
+    public void OnShoot()
+    {
+        if (!aiming || shootCD > 0 || !(state == MoveState.idle || state == MoveState.walking))
+            return;
+
+        Camera.main.GetComponent<CameraFollow>().Shoot();
+
+        bulletCount--;
+        DisplayStats();
+        shootCD = maxShootCD;
     }
 }

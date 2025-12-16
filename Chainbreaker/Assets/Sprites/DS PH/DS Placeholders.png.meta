@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: db2d37b26aef0e44eb445a9b495aa703
+guid: ac5c102ca55244a44a7d86f4de4070b1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,79 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1200
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5954481a4c40bd844a5113c95bca3e71
-      internalID: -313549244
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk1
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 1200
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ce3df28e6cdf784197878e21228fa97
-      internalID: -439771854
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 1200
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2ff5baae710c6a442915df4e42baea3c
-      internalID: -1763026165
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run1
+      name: Idle 1
       rect:
         serializedVersion: 2
         x: 0
         y: 1000
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f30c8ce4c7d79f6499756a3cbbc0be1b
-      internalID: 347237481
+      spriteID: eabc5d093a8fef24690a65824e7efdb0
+      internalID: 56302815
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run2
+      name: Idle 2
       rect:
         serializedVersion: 2
-        x: 200
+        x: 250
         y: 1000
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b61751f5c48c7944e92b3999c6f8c6bb
-      internalID: -1906456215
+      spriteID: 3190e4eb3c48c32479c9000facdc10bf
+      internalID: -259233955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run3
+      name: Weak 1
       rect:
         serializedVersion: 2
-        x: 400
+        x: 500
         y: 1000
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -222,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c1693f62ce9f8f43b878466bf044251
-      internalID: -1724979758
+      spriteID: 555fd19718b651647a90be90dbb8c1b4
+      internalID: -1575787914
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run4
+      name: Weak 2
       rect:
         serializedVersion: 2
-        x: 600
+        x: 750
         y: 1000
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77590fe727df59d428d79c42bdd67472
-      internalID: 128470048
+      spriteID: 27519ec7314605940a6b8a18a5ec9297
+      internalID: -308094405
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump
+      name: TP 1
       rect:
         serializedVersion: 2
         x: 0
-        y: 800
-        width: 200
-        height: 200
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1404df7edee31ae4babe03e78192e0ba
-      internalID: 1934749719
+      spriteID: 7cf527621dd78a14aa3abcc7320cc524
+      internalID: 1608137835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump1
+      name: TP 2
       rect:
         serializedVersion: 2
-        x: 200
-        y: 800
-        width: 200
-        height: 200
+        x: 250
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,20 +222,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d7b130a8fd76e543a69e16617ebb229
-      internalID: 1691225618
+      spriteID: b1e3f5f20a7260f428f227ae0a32a1bf
+      internalID: 1283052957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Fall
+      name: TP 3
       rect:
         serializedVersion: 2
-        x: 600
-        y: 800
-        width: 200
-        height: 200
+        x: 500
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,108 +244,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bffb350ef283024c9d743e9b3d939f6
-      internalID: 855399876
+      spriteID: b6bdc08d03e6e184994c3486279e2386
+      internalID: -214610768
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slide Start
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 600
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2f67f68293e627a4891f4070d428c3a4
-      internalID: -2127977650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slide
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 600
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 777e35812a988f44588269eb8b312a8d
-      internalID: -1550840216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slide End
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 600
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 03b80fd8409d744439ac2ff292e4760f
-      internalID: -694086750
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Land
-      rect:
-        serializedVersion: 2
-        x: 800
-        y: 800
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 486c83f8bf4eac44c8ab2dd80fc488d4
-      internalID: -778885709
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gun Idle
+      name: Yell Charge
       rect:
         serializedVersion: 2
         x: 0
-        y: 400
-        width: 200
-        height: 200
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -420,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f29c3e9659ea5745a8120d05dd77cab
-      internalID: -1709628909
+      spriteID: 32bcbd7b332ee474c8f91bf5389221ae
+      internalID: -253954101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Walk 1
+      name: Yell GO
       rect:
         serializedVersion: 2
-        x: 200
-        y: 400
-        width: 200
-        height: 200
+        x: 250
+        y: 501
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -442,20 +288,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74faed922ff05a84f9881f3b11dfa3c5
-      internalID: -1771091629
+      spriteID: a5e0de78139642c45b147da865c15366
+      internalID: -34230884
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Walk 2
+      name: Yell 1
       rect:
         serializedVersion: 2
-        x: 399
-        y: 400
-        width: 200
-        height: 200
+        x: 500
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -464,20 +310,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: adad8aaec5bb23f4686ea451aff978c0
-      internalID: -1817548470
+      spriteID: 3056bed6de172c540847201462234542
+      internalID: 426177148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Run 1
+      name: Yell 2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 200
-        width: 200
-        height: 200
+        x: 750
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -486,20 +332,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8600637ad70be2144ac3676211d708a4
-      internalID: 718316288
+      spriteID: 0c90488d3fa395b4697754c1d7841cc6
+      internalID: 1036469360
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Run2
+      name: Charge Charge
       rect:
         serializedVersion: 2
-        x: 200
-        y: 200
-        width: 200
-        height: 200
+        x: 1
+        y: 250
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -508,20 +354,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e399af8510591b84db36646442121a35
-      internalID: 2102466346
+      spriteID: 368f45203503fe3459d96dc7a093367c
+      internalID: 1910054039
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Run 3
+      name: Charge GO
       rect:
         serializedVersion: 2
-        x: 400
-        y: 200
-        width: 200
-        height: 200
+        x: 250
+        y: 250
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -530,20 +376,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b26ccf73b22c2244fa3274e53249db4c
-      internalID: 1174548220
+      spriteID: def1f38457111bc4cbec65944a6e811e
+      internalID: 1500422676
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gun Run 4
+      name: Charge 1
       rect:
         serializedVersion: 2
-        x: 600
-        y: 200
-        width: 200
-        height: 200
+        x: 500
+        y: 250
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,20 +398,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beb481fd16898804c9407f9623cf356a
-      internalID: -1959049968
+      spriteID: 023fe2b1ca3e0304db7a2af2ef21f655
+      internalID: 1601909715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walk 3
+      name: Charge 2
       rect:
         serializedVersion: 2
-        x: 600
-        y: 1200
-        width: 200
-        height: 200
+        x: 750
+        y: 250
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -574,42 +420,108 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7aa15c81038f26647ac3d788e38cb177
-      internalID: -1825297546
+      spriteID: fa7a048e16aa05840a5d62b3b1ad62e3
+      internalID: -2051652503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 800
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0689b248c8da0f343b457ff4ab68a4e7
-      internalID: -1453291591
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Reload
+      name: Slam Charge
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 200
-        height: 200
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e8bec2f07924340be4023d216a7814
+      internalID: 421557619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam GO
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 0
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df93f47a71cdda643a95ca2911a7bbe2
+      internalID: 1394525632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320790e83c5031c4699de1bf4c15968a
+      internalID: 102754174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam Spin
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 0
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d25ed26d6857b54b96dfa30bb068eeb
+      internalID: -570788421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nothing
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -618,8 +530,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4303e9d7efb121b4ea19797802f2b1fc
-      internalID: -207850708
+      spriteID: 0b27fc92fcfc20c4699df1e456af831f
+      internalID: 1849102852
       vertices: []
       indices: 
       edges: []
@@ -628,7 +540,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d4a387be4c2ad224487fbbc9c8c1ff60
+    spriteID: 118ae7fcd79c336499107636fbfe2c2f
     internalID: 0
     vertices: []
     indices: 
@@ -638,32 +550,28 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":6.0},"gridSpriteSize":{"x":200.0,"y":200.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":5.0},"gridSpriteSize":{"x":250.0,"y":250.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Fall: 855399876
-      Gun Idle: -1709628909
-      Gun Run 1: 718316288
-      Gun Run 3: 1174548220
-      Gun Run 4: -1959049968
-      Gun Run2: 2102466346
-      Gun Walk 1: -1771091629
-      Gun Walk 2: -1817548470
-      Idle: -313549244
-      Jump: 1934749719
-      Jump1: 1691225618
-      Jump2: -1453291591
-      Land: -778885709
-      Reload: -207850708
-      Run1: 347237481
-      Run2: -1906456215
-      Run3: -1724979758
-      Run4: 128470048
-      Slide: -1550840216
-      Slide End: -694086750
-      Slide Start: -2127977650
-      Walk 3: -1825297546
-      Walk1: -439771854
-      Walk2: -1763026165
+      Charge 1: 1601909715
+      Charge 2: -2051652503
+      Charge Charge: 1910054039
+      Charge GO: 1500422676
+      Idle 1: 56302815
+      Idle 2: -259233955
+      Nothing: 1849102852
+      Slam: 102754174
+      Slam Charge: 421557619
+      Slam GO: 1394525632
+      Slam Spin: -570788421
+      TP 1: 1608137835
+      TP 2: 1283052957
+      TP 3: -214610768
+      Weak 1: -1575787914
+      Weak 2: -308094405
+      Yell 1: 426177148
+      Yell 2: 1036469360
+      Yell Charge: -253954101
+      Yell GO: -34230884
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

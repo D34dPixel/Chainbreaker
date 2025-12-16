@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Projectile
+  - Ground
+  - Hurtbox
+  - Hitbox
   layers:
   - Default
   - TransparentFX
@@ -14,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
+  - Boss Hitbox
   - 
   - 
   - 
