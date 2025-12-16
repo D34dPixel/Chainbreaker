@@ -120,11 +120,6 @@ public class DS : Boss
         }
     }
 
-    public void TakeDamage()
-    {
-        TakeDamage();
-    }
-
     IEnumerator Teleport(Vector3 position)
     {
         state = BossState.teleporting;
