@@ -24,7 +24,7 @@ public class FallingRock : MonoBehaviour
             if (!floored)
             {
                 Break();
-                col.gameObject.GetComponent<Movement>().TakeDamage(damage);
+                col.gameObject.GetComponent<Movement>().TakeDamage();
             }
         }
 

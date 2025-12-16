@@ -20,6 +20,8 @@ public class LoopManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0f;
+        FadeScreen.GetComponent<Image>().color = new Color(0, 0, 0, 1);
+        Loop.SetActive(true);
         StartCoroutine(FadeOut());
     }
 
@@ -56,4 +58,8 @@ public class LoopManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
 }

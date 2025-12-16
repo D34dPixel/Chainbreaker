@@ -88,6 +88,10 @@ public class Movement : MonoBehaviour
 
         if (state == MoveState.inAir)
         {
+            if (transform.position.y < -10)
+            {
+                TakeDamage();
+            }
             if (rb.linearVelocity.y <= 0)
             {
                 EndJump();
@@ -242,7 +246,7 @@ public class Movement : MonoBehaviour
         falling = true;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage()
     {
         if (!invincible)
             health--;
