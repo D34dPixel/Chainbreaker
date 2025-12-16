@@ -165,7 +165,7 @@ public class Movement : MonoBehaviour
     public void OnMove(InputValue moveVal)
     {
         moveInputs = moveVal.Get<Vector2>();
-        moveVector = (moveInputs.y*orient.transform.forward + orient.transform.right * moveInputs.x);
+        moveVector = (moveInputs.y * transform.forward.normalized + transform.right.normalized * moveInputs.x);
 
         if (moveInputs.x < 0 && !aiming) facingRight = true;
         else if (moveInputs.x > 0) facingRight = false;
@@ -175,7 +175,7 @@ public class Movement : MonoBehaviour
     public void Rotate()
     {
         rb.rotation = Quaternion.Euler(0, orient.transform.eulerAngles.y, 0);
-        moveVector = (moveInputs.y * orient.transform.forward + orient.transform.right * moveInputs.x);
+        moveVector = (moveInputs.y * transform.forward.normalized + transform.right.normalized * moveInputs.x);
     }
 
     public void OnSprint()

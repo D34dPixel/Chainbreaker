@@ -5156,7 +5156,7 @@ MonoBehaviour:
   - {fileID: 1017929660}
   - {fileID: 1022089557}
   maxShootCD: 1
-  maxReloadTime: 1
+  maxReloadTime: 0.5
   raycastDist: 1
   ground:
     serializedVersion: 2
