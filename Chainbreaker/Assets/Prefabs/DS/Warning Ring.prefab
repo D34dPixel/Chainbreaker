@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_LocalRotation.y
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 36337f22e75486944809f58fca0b7a73, type: 2}
+    - target: {fileID: -5754084199372789682, guid: b238e395d0866424681d091e967fb5b9, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: 7ea14b537defed94a830978055936b26, type: 3}
     - target: {fileID: 919132149155446097, guid: b238e395d0866424681d091e967fb5b9, type: 3}
       propertyPath: m_Name
       value: Warning Ring

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Boss : MonoBehaviour
 {
@@ -6,23 +7,23 @@ public class Boss : MonoBehaviour
     [System.Serializable]
     public class BossPhase
     {
+        public int maxHealth;
         public string name;
         public float attackTimer;
         public float attackTimerVariation;
         public float recoveryTime;
         public float chargeTimeMult;
-        public int attacksToWeaken;
-        public int healthPercentToNextPhase;
+        public bool nextPhaseExists;
         public float[] attackVariables;
         public Vector3[] idlePositions;
     }
 
     [Header("Stats")]
-    public int maxHealth;
     public float health;
     public float attackTime;
     public float recoveryTime;
-    public int attackCount;
+    public int hitDamage;
+    public int hitDamageWeakened;
 
     [Header("State")]
     public bool startWeakened;
@@ -42,19 +43,27 @@ public class Boss : MonoBehaviour
         attacking
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage()
     {
-        health -= damage;
-        AdvancePhase();
-        if (health <= 0) Die();
+        if (state == BossState.weakened)
+            health -= hitDamageWeakened;
+        else
+            health -= hitDamage;
+
+        if (health <= 0)
+        {
+            StartCoroutine(AdvancePhase());
+        }
     }
 
-    public void AdvancePhase()
+    public virtual IEnumerator AdvancePhase()
     {
-        if (health <= (maxHealth / 100) * phases[currentPhase].healthPercentToNextPhase)
+        if (!phases[currentPhase].nextPhaseExists)
+            Die();
+        else
         {
-            if (phases[currentPhase + 1] != null)
-                currentPhase++;
+            yield return new WaitForSeconds(2f);
+            currentPhase++;
         }
     }
     public virtual void Attack()
@@ -64,7 +73,7 @@ public class Boss : MonoBehaviour
 
     public virtual void Die()
     {
-        Destroy(gameObject);
+        StartCoroutine(LoopManager.instance.FadeIn());
     }    
 
     private void Start()
