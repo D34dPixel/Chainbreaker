@@ -205,15 +205,14 @@ public class Movement : MonoBehaviour
                 state = MoveState.walking;
                 speed = defaultSpeed;
 
-                if (sprinting)
-                {
-                    state = MoveState.sprinting;
-                    speed = sprintSpeed;
-                }
-
                 if (aiming)
                 {
                     speed /= 2;
+                }
+                else if (sprinting)
+                {
+                    state = MoveState.sprinting;
+                    speed = sprintSpeed;
                 }
             }
 
