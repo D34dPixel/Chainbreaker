@@ -34,6 +34,10 @@ public class Movement : MonoBehaviour
     public int maxBullets;
     int bulletCount;
     public GameObject[] bullets;
+    public float maxShootCD;
+    float shootCD;
+    public float maxReloadTime;
+    float reloadTime;
 
     [Header("Ground")]
     public float raycastDist;
@@ -46,7 +50,7 @@ public class Movement : MonoBehaviour
     Vector3 moveVector;
 
     //Action bools
-    bool moving,sprinting,grounded,jumping,falling,shooting,sliding,aiming,facingRight,invincible;
+    bool moving,sprinting,grounded,jumping,falling,shooting,sliding,aiming,facingRight,invincible,reloading;
 
     Animator a;
     Rigidbody rb;
@@ -59,7 +63,8 @@ public class Movement : MonoBehaviour
         walking,
         sprinting,
         sliding,
-        inAir
+        inAir,
+        reloading
     }
     private void Start()
     {
@@ -67,10 +72,14 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         health = maxHealth;
         bulletCount = maxBullets;
+        reloadTime = maxReloadTime;
         DisplayStats();
     }
     private void FixedUpdate()
     {
+
+        shootCD -= Time.fixedDeltaTime;
+
         if (state == MoveState.sliding)
         {
             slideTimer -= Time.fixedDeltaTime;
@@ -79,7 +88,6 @@ public class Movement : MonoBehaviour
                 EndSlide();
             }
         }
-
         invcTimer -= Time.fixedDeltaTime;
         if (invcTimer <= 0)
         {
@@ -95,6 +103,24 @@ public class Movement : MonoBehaviour
             if (rb.linearVelocity.y <= 0)
             {
                 EndJump();
+            }
+        }
+
+        if (state == MoveState.reloading)
+        {
+            if (bulletCount < maxBullets)
+            {
+                reloadTime-= Time.fixedDeltaTime;
+                if (reloadTime <= 0)
+                {
+                    bulletCount++;
+                    DisplayStats();
+                    reloadTime = maxReloadTime;
+                }
+            }
+            else
+            {
+                reloading = false;
             }
         }
 
@@ -114,6 +140,7 @@ public class Movement : MonoBehaviour
         a.SetBool("Sliding", sliding);
         a.SetBool("Falling", falling);
         a.SetBool("Aiming", aiming);
+        a.SetBool("Reload", reloading);
 
         if (state == MoveState.inAir)
             rb.AddForce(moveVector.normalized * speed * airResistance, ForceMode.Force);
@@ -140,15 +167,14 @@ public class Movement : MonoBehaviour
         moveInputs = moveVal.Get<Vector2>();
         moveVector = (moveInputs.y*orient.transform.forward + orient.transform.right * moveInputs.x);
 
-        if (moveInputs.x < 0) facingRight = true;
+        if (moveInputs.x < 0 && !aiming) facingRight = true;
         else if (moveInputs.x > 0) facingRight = false;
         GetComponentInChildren<SpriteRenderer>().flipX = facingRight;
     }
 
     public void Rotate()
     {
-        rb.rotation = orient.transform.rotation;
-        //orient.transform.localRotation = Quaternion.identity;
+        rb.rotation = Quaternion.Euler(0, orient.transform.eulerAngles.y, 0);
         moveVector = (moveInputs.y * orient.transform.forward + orient.transform.right * moveInputs.x);
     }
 
@@ -160,6 +186,14 @@ public class Movement : MonoBehaviour
     public void OnAim()
     {
         aiming = !aiming;
+        facingRight = false;
+        GetComponentInChildren<SpriteRenderer>().flipX = false;
+    }
+
+    public void OnReload()
+    {
+        if (bulletCount < maxBullets)
+            reloading = true;
     }
 
     public void OnJump()
@@ -199,9 +233,16 @@ public class Movement : MonoBehaviour
         {
             state = MoveState.idle;
             falling = false;
-
-            if (moving)
+            
+            if (reloading)
             {
+                speed = 0;
+                state = MoveState.reloading;
+            }
+
+            else if (moving)
+            {
+                reloading = false;
                 state = MoveState.walking;
                 speed = defaultSpeed;
 
@@ -218,6 +259,7 @@ public class Movement : MonoBehaviour
 
             if (sliding)
             {
+                reloading = false;
                 moving = false;
                 speed = slideSpeed;
                 state = MoveState.sliding;
@@ -225,6 +267,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            reloading = false;
             moving = false;
             state = MoveState.inAir;
         }
@@ -285,5 +328,15 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Hurtbox")
             TakeDamage();
+    }
+
+    public void OnShoot()
+    {
+        if (!aiming || shootCD > 0)
+            return;
+
+        bulletCount--;
+        DisplayStats();
+        shootCD = maxShootCD;
     }
 }
