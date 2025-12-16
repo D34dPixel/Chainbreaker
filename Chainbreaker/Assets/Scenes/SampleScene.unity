@@ -866,14 +866,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2285bd6598aa9c4682f1f64da9069b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
   health: 0
   attackTime: 5
   recoveryTime: 0
+  hitDamage: 1
+  hitDamageWeakened: 5
   startWeakened: 0
   state: 0
   phases:
-  - health: 0
+  - maxHealth: 10
     name: Phase 1
     attackTimer: 5
     attackTimerVariation: 2
@@ -889,7 +890,7 @@ MonoBehaviour:
     - 70
     idlePositions:
     - {x: 0, y: 5, z: 0}
-  - health: 0
+  - maxHealth: 20
     name: Phase 2
     attackTimer: 2
     attackTimerVariation: 1
@@ -955,6 +956,7 @@ MonoBehaviour:
   - {fileID: 96764855}
   - {fileID: 1061932322}
   - {fileID: 451820251}
+  heartCount: 3
   hearts:
   - {fileID: 1281721880}
   - {fileID: 1953094547}

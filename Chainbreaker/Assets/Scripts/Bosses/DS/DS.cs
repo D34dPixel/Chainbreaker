@@ -37,6 +37,7 @@ public class DS : Boss
     public GameObject[] batteries;
 
     [Header("Health")]
+    public int heartCount = 3;
     public GameObject[] hearts;
     
 
@@ -119,17 +120,14 @@ public class DS : Boss
         }
     }
 
-    public void OnHit(float damage, bool weakSpot)
+    public void OnHit()
     {
+        TakeDamage();
         if (state == BossState.weakened)
         {
-            Attack();
-            damage *= 2;
+            recoveryTime = 0;
+            attackTime = 1;
         }
-
-        if (weakSpot) damage *= 1.5f;
-
-        TakeDamage(damage);
     }
 
     IEnumerator Teleport(Vector3 position)
@@ -259,9 +257,9 @@ public class DS : Boss
 
     void DisplayStats()
     {
-        if (health > maxHealth)
+        if (health > phases[currentPhase].maxHealth)
         {
-            health = maxHealth;
+            health = phases[currentPhase].maxHealth;
         }
         
         if (batteryCharge > maxBattery)
@@ -284,12 +282,17 @@ public class DS : Boss
     }
     public override IEnumerator AdvancePhase()
     {
+        heartCount--;
+
         maxBattery *= 2;
 
-        while (batteryCharge < maxBattery && health < maxHealth)
+        health = phases[currentPhase].maxHealth;
+
+        currentPhase++;
+
+        while (batteryCharge < maxBattery)
         {
             batteryCharge++;
-            health++;
             DisplayStats();
             attackTime = phases[currentPhase].attackTimer;
             yield return new WaitForSeconds(1f);
@@ -297,6 +300,5 @@ public class DS : Boss
             DisplayStats();
             yield return new WaitForSeconds(1f);
         }
-        currentPhase++;
     }
 }

@@ -22,6 +22,8 @@ public class Boss : MonoBehaviour
     public float health;
     public float attackTime;
     public float recoveryTime;
+    public int hitDamage;
+    public int hitDamageWeakened;
 
     [Header("State")]
     public bool startWeakened;
@@ -41,9 +43,13 @@ public class Boss : MonoBehaviour
         attacking
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage()
     {
-        health -= damage;
+        if (state == BossState.weakened)
+            health -= hitDamageWeakened;
+        else
+            health -= hitDamage;
+
         if (health <= 0)
         {
             if (phases[currentPhase].nextPhaseExists)
