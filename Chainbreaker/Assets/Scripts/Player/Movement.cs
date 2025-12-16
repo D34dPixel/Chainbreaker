@@ -99,6 +99,7 @@ public class Movement : MonoBehaviour
             if (transform.position.y < -25)
             {
                 TakeDamage();
+                transform.position = Vector3.up;
             }
             if (rb.linearVelocity.y <= 0)
             {

@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollow : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject orient, player;
     public float lookDelay = 0.125f;
     public float sensitivity = 10;
     public Vector3 offset; // how far the camera is from the player
@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour
     public int baseFOV = 60;
 
     [Header("Aiming")]
+    public GameObject crosshair;
     public bool aiming;
     public Vector3 aimOffset;
     public int aimFOV = 30;
@@ -22,15 +23,17 @@ public class CameraFollow : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-    private void FixedUpdate()
+    private void Update()
     {
+        crosshair.SetActive(aiming);
+
         Vector3 wantPos;
 
         if (aiming)
         {
             GetComponent<Camera>().fieldOfView = aimFOV;
 
-            wantPos = aimTarget.position + (player.transform.rotation * aimOffset);
+            wantPos = aimTarget.position + (orient.transform.rotation * aimOffset);
 
             transform.LookAt(aimTarget);
 
@@ -38,8 +41,8 @@ public class CameraFollow : MonoBehaviour
         else
         {
             GetComponent<Camera>().fieldOfView = baseFOV;
-            wantPos = player.transform.position + (player.transform.rotation * offset);
-            transform.LookAt(player.transform);
+            wantPos = orient.transform.position + (orient.transform.rotation * offset);
+            transform.LookAt(orient.transform);
         }
         Vector3 pos = Vector3.Lerp(transform.position, wantPos, lookDelay);
         transform.position = pos;
@@ -47,23 +50,14 @@ public class CameraFollow : MonoBehaviour
 
     public void OnRotate(InputValue val)
     {
-        Vector2 inputVal = val.Get<Vector2>();
+        Vector2 inputVal = val.Get<Vector2>().normalized;
 
         float x;
         float y;
-
-        if (aiming)
-        {
-            x = (inputVal.y * sensitivity) + transform.rotation.eulerAngles.x;
-            y = (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y;
-        }
-
-        else
-        {
-            x = Mathf.Clamp((inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
-            y = (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y;
-
-        }
+        
+        x = Mathf.Clamp((-inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
+        y = (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y;
+        
         StopAllCoroutines();
         StartCoroutine(RotatePlayerY(y));
         StartCoroutine(RotatePlayerX(x));
@@ -71,20 +65,20 @@ public class CameraFollow : MonoBehaviour
 
     public IEnumerator RotatePlayerY(float newY)
     {
-        while (player.transform.rotation.y != newY)
+        while (Mathf.Abs(orient.transform.eulerAngles.y - newY) > 0.1f)
         {
             Quaternion wantRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newY, 0);
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, wantRot, 0.125f);
+            orient.transform.rotation = Quaternion.Lerp(orient.transform.rotation, wantRot, 0.125f);
             yield return new WaitForSeconds(1);
         }
     }
 
     public IEnumerator RotatePlayerX(float newX)
     {
-        while (player.transform.rotation.y != newX)
+        while (Mathf.Abs(orient.transform.eulerAngles.x - newX) > 0.1f)
         {
             Quaternion wantRot = Quaternion.Euler(newX, transform.rotation.eulerAngles.y, 0);
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, wantRot, 0.125f);
+            orient.transform.rotation = Quaternion.Lerp(orient.transform.rotation.normalized, wantRot.normalized, 0.125f);
             yield return new WaitForSeconds(1);
         }
     }
