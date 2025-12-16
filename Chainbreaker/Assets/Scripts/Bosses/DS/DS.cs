@@ -271,7 +271,7 @@ public class DS : Boss
         foreach (GameObject health in hearts)
             health.GetComponent<Image>().enabled = false;
 
-        for (int i = 0; i < health; i++)
+        for (int i = 0; i < heartCount; i++)
             hearts[i].GetComponent<Image>().enabled = true;
 
         foreach (GameObject battery in batteries)
@@ -283,6 +283,12 @@ public class DS : Boss
     public override IEnumerator AdvancePhase()
     {
         heartCount--;
+
+        if (heartCount <= 0)
+            Die();
+
+        else
+
 
         maxBattery *= 2;
 

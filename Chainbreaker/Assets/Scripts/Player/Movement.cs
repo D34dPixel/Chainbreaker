@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -10,12 +11,11 @@ public class Movement : MonoBehaviour
     [Header("Stats")]
     public int defaultSpeed = 20;
     public int sprintSpeed = 50;
-    public int defaultHealth = 5;
     public int jumpForce = 10;
-
+    public int maxHealth = 3;
     int health;
     int speed;
-    float jumpTimer;
+    public GameObject[] hearts;
 
     [Header("Sliding")]
     public int slideSpeed = 20;
@@ -30,12 +30,17 @@ public class Movement : MonoBehaviour
     public GameObject cam;
     public Vector3 standardOffset;
 
+    [Header("Bullets")]
+    public int maxBullets;
+    int bulletCount;
+    public GameObject[] bullets;
 
     [Header("Ground")]
     public float raycastDist;
     public LayerMask ground;
     public float groundDrag = 2f;
     public float airResistance = 10f;
+    float jumpTimer;
 
     Vector3 moveInputs;
     Vector3 moveVector;
@@ -60,7 +65,9 @@ public class Movement : MonoBehaviour
     {
         a = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
-        health = defaultHealth;
+        health = maxHealth;
+        bulletCount = maxBullets;
+        DisplayStats();
     }
     private void FixedUpdate()
     {
@@ -239,5 +246,36 @@ public class Movement : MonoBehaviour
     {
         if (!invincible)
             health--;
+        if (health <= 0)
+        {
+            StartCoroutine(LoopManager.instance.FadeIn());
+        }
+        DisplayStats();
+    }
+
+    void DisplayStats()
+    {
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        if (bulletCount > maxBullets)
+        {
+            bulletCount = maxBullets;
+        }
+
+
+        foreach (GameObject health in hearts)
+            health.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < health; i++)
+            hearts[i].GetComponent<Image>().enabled = true;
+
+        foreach (GameObject battery in bullets)
+            battery.GetComponent<Image>().enabled = false;
+
+        for (int i = 0; i < bulletCount; i++)
+            bullets[i].GetComponent<Image>().enabled = true;
     }
 }

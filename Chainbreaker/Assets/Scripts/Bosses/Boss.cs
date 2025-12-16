@@ -52,17 +52,19 @@ public class Boss : MonoBehaviour
 
         if (health <= 0)
         {
-            if (phases[currentPhase].nextPhaseExists)
-                StartCoroutine(AdvancePhase());
-            else
-                Die();
+            StartCoroutine(AdvancePhase());
         }
     }
 
     public virtual IEnumerator AdvancePhase()
     {
-        yield return new WaitForSeconds(2f);
-        currentPhase++;
+        if (!phases[currentPhase].nextPhaseExists)
+            Die();
+        else
+        {
+            yield return new WaitForSeconds(2f);
+            currentPhase++;
+        }
     }
     public virtual void Attack()
     {
@@ -71,7 +73,7 @@ public class Boss : MonoBehaviour
 
     public virtual void Die()
     {
-        Destroy(gameObject);
+        StartCoroutine(LoopManager.instance.FadeIn());
     }    
 
     private void Start()
