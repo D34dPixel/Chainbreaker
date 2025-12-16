@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 143875418}
   m_Layer: 7
   m_Name: Camera
-  m_TagString: Player
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -732,6 +732,9 @@ MonoBehaviour:
   aimOffset: {x: 0, y: 0, z: -5}
   aimFOV: 30
   aimTarget: {fileID: 83191760}
+  bossLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &143875418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,9 +926,9 @@ GameObject:
   - component: {fileID: 299099273}
   - component: {fileID: 299099274}
   - component: {fileID: 299099275}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Hitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -981,6 +984,7 @@ MonoBehaviour:
     - 5
     - 2
     - 70
+    - 3
     idlePositions:
     - {x: 0, y: 5, z: 0}
   - maxHealth: 20
@@ -997,6 +1001,7 @@ MonoBehaviour:
     - 10
     - 1
     - 40
+    - 6
     idlePositions:
     - {x: 0, y: 5, z: 0}
   currentPhase: 0

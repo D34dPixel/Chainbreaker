@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollow : MonoBehaviour
@@ -18,6 +19,7 @@ public class CameraFollow : MonoBehaviour
     public Vector3 aimOffset;
     public int aimFOV = 30;
     public Transform aimTarget;
+    public LayerMask bossLayer;
 
     private void Start()
     {
@@ -55,7 +57,7 @@ public class CameraFollow : MonoBehaviour
         float x;
         float y;
         
-        x = Mathf.Clamp((-inputVal.y * sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
+        x = Mathf.Clamp((inputVal.y * -sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
         y = (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y;
         
         StopAllCoroutines();
@@ -69,6 +71,7 @@ public class CameraFollow : MonoBehaviour
         {
             Quaternion wantRot = Quaternion.Euler(transform.rotation.eulerAngles.x, newY, 0);
             orient.transform.rotation = Quaternion.Lerp(orient.transform.rotation, wantRot, 0.125f);
+            aimTarget.rotation = orient.transform.rotation;
             yield return new WaitForSeconds(1);
         }
     }
@@ -79,7 +82,19 @@ public class CameraFollow : MonoBehaviour
         {
             Quaternion wantRot = Quaternion.Euler(newX, transform.rotation.eulerAngles.y, 0);
             orient.transform.rotation = Quaternion.Lerp(orient.transform.rotation.normalized, wantRot.normalized, 0.125f);
+            aimTarget.rotation = orient.transform.rotation;
             yield return new WaitForSeconds(1);
+        }
+    }
+
+    public void Shoot()
+    {
+        Debug.Log("Shot");
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, bossLayer))
+        {
+            Debug.Log("Hit Boss");
+            hit.transform.gameObject.GetComponent<Boss>().TakeDamage();
         }
     }
 }

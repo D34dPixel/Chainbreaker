@@ -333,8 +333,10 @@ public class Movement : MonoBehaviour
 
     public void OnShoot()
     {
-        if (!aiming || shootCD > 0)
+        if (!aiming || shootCD > 0 || !(state == MoveState.idle || state == MoveState.walking))
             return;
+
+        Camera.main.GetComponent<CameraFollow>().Shoot();
 
         bulletCount--;
         DisplayStats();

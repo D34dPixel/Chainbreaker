@@ -46,7 +46,11 @@ public class Boss : MonoBehaviour
     public void TakeDamage()
     {
         if (state == BossState.weakened)
+        {
+            recoveryTime = 0;
+            attackTime = 1;
             health -= hitDamageWeakened;
+        }
         else
             health -= hitDamage;
 

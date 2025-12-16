@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - Ground
   - Hurtbox
+  - Hitbox
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
+  - Boss Hitbox
   - 
   - 
   - 

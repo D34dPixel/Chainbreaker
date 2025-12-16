@@ -120,14 +120,9 @@ public class DS : Boss
         }
     }
 
-    public void OnHit()
+    public void TakeDamage()
     {
         TakeDamage();
-        if (state == BossState.weakened)
-        {
-            recoveryTime = 0;
-            attackTime = 1;
-        }
     }
 
     IEnumerator Teleport(Vector3 position)
@@ -166,7 +161,7 @@ public class DS : Boss
             while (targetPosition.y < 2)
                 targetPosition += Vector3.up;
 
-            Debug.Log(targetPosition.ToString());
+            //Debug.Log(targetPosition.ToString());
 
             while (chargingTime < chargeTime)
             {
@@ -283,28 +278,27 @@ public class DS : Boss
     public override IEnumerator AdvancePhase()
     {
         heartCount--;
+        currentPhase++;
 
         if (heartCount <= 0)
             Die();
 
         else
-
-
-        maxBattery *= 2;
-
-        health = phases[currentPhase].maxHealth;
-
-        currentPhase++;
-
-        while (batteryCharge < maxBattery)
         {
-            batteryCharge++;
-            DisplayStats();
-            attackTime = phases[currentPhase].attackTimer;
-            yield return new WaitForSeconds(1f);
-            batteryCharge++;
-            DisplayStats();
-            yield return new WaitForSeconds(1f);
+            maxBattery = (int)phases[currentPhase].attackVariables[6];
+
+            health = phases[currentPhase].maxHealth;
+
+            while (batteryCharge < maxBattery)
+            {
+                batteryCharge++;
+                DisplayStats();
+                attackTime = phases[currentPhase].attackTimer;
+                yield return new WaitForSeconds(1f);
+                batteryCharge++;
+                DisplayStats();
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }
