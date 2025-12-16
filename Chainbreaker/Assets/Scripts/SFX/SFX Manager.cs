@@ -26,4 +26,14 @@ public class SFXManager : MonoBehaviour
         audioSource.Play();
         Destroy(audioSource.gameObject, audioSource.clip.length);
     }
+
+    public void PlaySFXClip(AudioClip audioClip, Vector3 spawnPos, float volume, Transform parent)
+    {
+        AudioSource audioSource = Instantiate(SFXprefab, spawnPos, Quaternion.identity, parent);
+
+        audioSource.clip = audioClip;
+        audioSource.volume = volume;
+        audioSource.Play();
+        Destroy(audioSource.gameObject, audioSource.clip.length);
+    }
 }

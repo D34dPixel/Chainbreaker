@@ -44,13 +44,12 @@ public class Movement : MonoBehaviour
     public LayerMask ground;
     public float groundDrag = 2f;
     public float airResistance = 10f;
-    float jumpTimer;
 
     Vector3 moveInputs;
     Vector3 moveVector;
 
     //Action bools
-    bool moving,sprinting,grounded,jumping,falling,shooting,sliding,aiming,facingRight,invincible,reloading;
+    bool moving,sprinting,grounded,jumping,falling,sliding,aiming,facingRight,invincible,reloading;
 
     Animator a;
     Rigidbody rb;
@@ -66,6 +65,10 @@ public class Movement : MonoBehaviour
         inAir,
         reloading
     }
+
+    [Header("Sounds")]
+    public AudioClip shootSFX;
+    public AudioClip reloadSFX, squeakSFX, jumpSFX, hitSFX, slideSFX;
     private void Start()
     {
         a = GetComponentInChildren<Animator>();
@@ -111,12 +114,13 @@ public class Movement : MonoBehaviour
         {
             if (bulletCount < maxBullets)
             {
-                reloadTime-= Time.fixedDeltaTime;
+                reloadTime -= Time.fixedDeltaTime;
                 if (reloadTime <= 0)
                 {
                     bulletCount++;
                     DisplayStats();
                     reloadTime = maxReloadTime;
+                    SFXManager.instance.PlaySFXClip(reloadSFX, this.transform.position, 1f, this.transform);
                 }
             }
             else
@@ -195,6 +199,9 @@ public class Movement : MonoBehaviour
     {
         if (bulletCount < maxBullets)
             reloading = true;
+        else
+            SFXManager.instance.PlaySFXClip(squeakSFX, this.transform.position, 1f, this.transform);
+
     }
 
     public void OnJump()
@@ -208,6 +215,8 @@ public class Movement : MonoBehaviour
             jumping = true;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        SFXManager.instance.PlaySFXClip(jumpSFX, this.transform.position, 1f, this.transform);
         }
         
     }
@@ -225,6 +234,7 @@ public class Movement : MonoBehaviour
             invcTimer = invincibilityTime;
             if (moving) rb.AddForce(moveVector*slideForce, ForceMode.Impulse);
             else rb.AddForce(transform.forward * slideForce, ForceMode.Impulse);
+            SFXManager.instance.PlaySFXClip(slideSFX, this.transform.position, 1f, this.transform);
         }
     }
 
@@ -293,6 +303,9 @@ public class Movement : MonoBehaviour
     {
         if (!invincible)
             health--;
+
+        SFXManager.instance.PlaySFXClip(hitSFX, this.transform.position, 1f, this.transform);
+
         if (health <= 0)
         {
             StartCoroutine(LoopManager.instance.FadeIn());
@@ -341,5 +354,7 @@ public class Movement : MonoBehaviour
         bulletCount--;
         DisplayStats();
         shootCD = maxShootCD;
+
+        SFXManager.instance.PlaySFXClip(shootSFX, this.transform.position, 1f, this.transform);
     }
 }

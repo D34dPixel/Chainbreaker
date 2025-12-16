@@ -104,6 +104,8 @@ MonoBehaviour:
   damage: 1
   destroyTime: 5
   breakParticles: {fileID: 7970504580766354858, guid: ba23fe49db0f5e745b014e6c4fb61756, type: 3}
+  warningRing: {fileID: 0}
+  breakSound: {fileID: 8300000, guid: 0ce995026a796e049b7434fd39b6fe18, type: 3}
 --- !u!135 &6685372340510362613
 SphereCollider:
   m_ObjectHideFlags: 0
