@@ -5427,6 +5427,7 @@ MonoBehaviour:
   jumpSFX: {fileID: 8300000, guid: 4043a269090be0f468ff13258f1ddd19, type: 3}
   hitSFX: {fileID: 8300000, guid: 4046de11ce07a154cb6e70676f798898, type: 3}
   slideSFX: {fileID: 8300000, guid: 6dfdd938cc39f8941998558db1a2a982, type: 3}
+  landSFX: {fileID: 8300000, guid: 07ec7d6f0213ca24fac9f33951ae6214, type: 3}
 --- !u!114 &1959613112
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -64,7 +64,7 @@ public class Movement : MonoBehaviour
 
     [Header("Sounds")]
     public AudioClip shootSFX;
-    public AudioClip reloadSFX, squeakSFX, jumpSFX, hitSFX, slideSFX;
+    public AudioClip reloadSFX, squeakSFX, jumpSFX, hitSFX, slideSFX, landSFX;
     private void Start()
     {
         a = GetComponentInChildren<Animator>();
@@ -338,6 +338,8 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Hurtbox")
             TakeDamage();
+        else if (collision.gameObject.tag == "ground")
+            SFXManager.instance.PlaySFXClip(landSFX, this.transform.position, 1f, this.transform);
     }
 
     public void OnShoot()
@@ -353,4 +355,5 @@ public class Movement : MonoBehaviour
 
         SFXManager.instance.PlaySFXClip(shootSFX, this.transform.position, 1f, this.transform);
     }
+    
 }
