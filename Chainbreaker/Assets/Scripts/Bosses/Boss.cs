@@ -4,6 +4,7 @@ using System.Collections;
 public class Boss : MonoBehaviour
 {
     
+    //phase class to allow for multiple phases
     [System.Serializable]
     public class BossPhase
     {
@@ -14,9 +15,11 @@ public class Boss : MonoBehaviour
         public float recoveryTime;
         public float chargeTimeMult;
         public bool nextPhaseExists;
-        public float[] attackVariables;
+        public float[] attackVariables; //these are used for whatever the phase needs them for  - there is definitely a more efficient and less annoying way of doing this
         public Vector3[] idlePositions;
     }
+    
+    //variables have to be public for the subclass to like them
 
     [Header("Stats")]
     public float health;
@@ -38,6 +41,7 @@ public class Boss : MonoBehaviour
     [Header("References")]
     public Animator a;
 
+    //states!
     public enum BossState
     {
         idle,
@@ -46,16 +50,23 @@ public class Boss : MonoBehaviour
         charging,
         attacking
     }
+    private void Start()
+    {
+        a = GetComponentInChildren<Animator>();
+    }
 
     public void TakeDamage()
     {
+        //if the boss is teleporting negate damage
         if (state == BossState.teleporting)
             return;
 
+        //if weakened it will play a different sound effect and deal more damage than if not
         if (state == BossState.weakened)
         {
 
             SFXManager.instance.PlaySFXClip(hitWeakSFX, transform.position, 1f, transform);
+            //immediately recovers from being weakened and is almost ready to instantly attack too
             recoveryTime = 0;
             attackTime = 1;
             health -= hitDamageWeakened;
@@ -65,13 +76,14 @@ public class Boss : MonoBehaviour
             SFXManager.instance.PlaySFXClip(hitSFX, transform.position, 1f, transform);
             health -= hitDamage;
         }
-
+        
         if (health <= 0)
         {
             StartCoroutine(AdvancePhase());
         }
     }
 
+    //more of a placeholder example coroutine for the subclasses to do more in depth
     public virtual IEnumerator AdvancePhase()
     {
         if (!phases[currentPhase].nextPhaseExists)
@@ -87,13 +99,9 @@ public class Boss : MonoBehaviour
         Debug.Log("Attack");
     }    
 
+    //when "dying" it simply restarts the loop instead of ending the game, reloading the scene
     public virtual void Die()
     {
         StartCoroutine(LoopManager.instance.FadeIn());
     }    
-
-    private void Start()
-    {
-        a = GetComponentInChildren<Animator>();
-    }
 }
