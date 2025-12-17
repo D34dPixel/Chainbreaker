@@ -8,7 +8,7 @@ public class DS : Boss
     public class DSAttack
     {
         public string name;
-        public float chargeTime, attackTime, minDistFromPlayer, maxDistFromPlayer;
+        public float chargeTime, attackTime;
         public Vector3 hitboxSize;
         public Vector3[] positions;
         public AudioClip attackSFX, chargeSFX;

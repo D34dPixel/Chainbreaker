@@ -1035,8 +1035,6 @@ MonoBehaviour:
   - name: Charge
     chargeTime: 5
     attackTime: 3
-    minDistFromPlayer: 0
-    maxDistFromPlayer: 0
     hitboxSize: {x: 0, y: 0, z: 0}
     positions:
     - {x: 25, y: 2, z: 25}
@@ -1048,8 +1046,6 @@ MonoBehaviour:
   - name: Slam
     chargeTime: 5
     attackTime: 5
-    minDistFromPlayer: 0
-    maxDistFromPlayer: 0
     hitboxSize: {x: 0, y: 0, z: 0}
     positions:
     - {x: 0, y: 2.5, z: 0}
@@ -1058,8 +1054,6 @@ MonoBehaviour:
   - name: Yell
     chargeTime: 2
     attackTime: 5
-    minDistFromPlayer: 0
-    maxDistFromPlayer: 0
     hitboxSize: {x: 0, y: 0, z: 0}
     positions:
     - {x: 0, y: 5, z: 0}
@@ -1672,7 +1666,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
