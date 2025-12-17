@@ -987,7 +987,7 @@ MonoBehaviour:
     - 3
     idlePositions:
     - {x: 0, y: 5, z: 0}
-  - maxHealth: 20
+  - maxHealth: 10
     name: Phase 2
     attackTimer: 2
     attackTimerVariation: 1
@@ -1005,6 +1005,12 @@ MonoBehaviour:
     idlePositions:
     - {x: 0, y: 5, z: 0}
   currentPhase: 0
+  windupSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
+  hitSFX: {fileID: 8300000, guid: 3338c50a650090740ac8e47a08261da5, type: 3}
+  hitWeakSFX: {fileID: 8300000, guid: b753cdadceaf8004fa417ac85cd4297c, type: 3}
+  tpSFX: {fileID: 8300000, guid: 61411c3c252def646a796a6146e92dc4, type: 3}
+  weakenSFX: {fileID: 8300000, guid: 516db5b0421016048bcd4e6acf426418, type: 3}
+  recoverSFX: {fileID: 8300000, guid: dd494b3066892e24a85f32120e007a52, type: 3}
   a: {fileID: 0}
   player: {fileID: 1959613109}
   attacks:
@@ -1019,6 +1025,8 @@ MonoBehaviour:
     - {x: -25, y: 2, z: 25}
     - {x: -25, y: 2, z: -25}
     - {x: 25, y: 2, z: -25}
+    attackSFX: {fileID: 8300000, guid: 0f9a20ad0481ad1489d8b2554bacf4d1, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
   - name: Slam
     chargeTime: 5
     attackTime: 5
@@ -1027,6 +1035,8 @@ MonoBehaviour:
     hitboxSize: {x: 0, y: 0, z: 0}
     positions:
     - {x: 0, y: 2.5, z: 0}
+    attackSFX: {fileID: 8300000, guid: 23470ab2c81eef04b94328bb7788f24c, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 107b95160407148458393d80e6c8c6f1, type: 3}
   - name: Yell
     chargeTime: 2
     attackTime: 5
@@ -1043,9 +1053,12 @@ MonoBehaviour:
     - {x: -30, y: 5, z: -30}
     - {x: 0, y: 5, z: -45}
     - {x: 30, y: 5, z: -30}
+    attackSFX: {fileID: 8300000, guid: a386a1df39515884c9cf02ccc12a32d5, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
   chosenAttack: 0
   rock: {fileID: 7545575271890918708, guid: 0380361ef3bed8a408859b9b26603c83, type: 3}
   warningRing: {fileID: 1188391363133476093, guid: fae3e854674ca1e40a2008d4ac96d159, type: 3}
+  yellSFX: {fileID: 8300000, guid: 29f63c0ff42859347a862c4c55b6228a, type: 3}
   maxBattery: 3
   batteries:
   - {fileID: 1685373204}
@@ -1059,6 +1072,7 @@ MonoBehaviour:
   - {fileID: 442138195}
   - {fileID: 1953094547}
   - {fileID: 1281721880}
+  loseHeartSFX: {fileID: 8300000, guid: b36a1f84de4892c4a80ca198f8ffedc8, type: 3}
 --- !u!65 &299099275
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1565,6 +1579,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442138195}
   m_CullTransparentMesh: 1
+--- !u!1 &442349124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442349125}
+  - component: {fileID: 442349127}
+  - component: {fileID: 442349126}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442349125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442349124}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 966.25, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &442349126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442349124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad33e605b0167d40b6261ade9e31249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+--- !u!114 &442349127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442349124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b20b36d5345cd34c915eac0313eb66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXprefab: {fileID: 2636659676581978367, guid: c8d21183550194547a20815d9e198fbd, type: 3}
 --- !u!1 &451820251
 GameObject:
   m_ObjectHideFlags: 0
@@ -3632,6 +3705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1388163686}
   - component: {fileID: 1388163687}
+  - component: {fileID: 1388163688}
   m_Layer: 0
   m_Name: LoopManager
   m_TagString: Untagged
@@ -3647,12 +3721,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388163685}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1471712366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1388163687
 MonoBehaviour:
@@ -3666,8 +3740,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0cc5f5ae8d4c42449028ba24f870488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FadeScreen: {fileID: 335376679}
-  Loop: {fileID: 1748118238}
+  fadeScreen: {fileID: 335376679}
+  loop: {fileID: 1748118238}
+  tickTock: {fileID: 0}
+  rewindSFX: {fileID: 8300000, guid: 3ebc1747acf498645af0f69786b952a5, type: 3}
+--- !u!82 &1388163688
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388163685}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 581351477b33ab64d9eb59d441f93ed2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1411345114
 GameObject:
   m_ObjectHideFlags: 0
@@ -3925,6 +4098,7 @@ Transform:
   - {fileID: 143875416}
   - {fileID: 1908075962}
   - {fileID: 1959613110}
+  - {fileID: 1388163686}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565666609
@@ -5247,6 +5421,13 @@ MonoBehaviour:
   groundDrag: 4
   airResistance: 0.4
   state: 0
+  shootSFX: {fileID: 8300000, guid: 93e3f0ab259b99147ba9c83a8fd96751, type: 3}
+  reloadSFX: {fileID: 8300000, guid: 2a85c113773c93c4a86d18f22facdc47, type: 3}
+  squeakSFX: {fileID: 8300000, guid: a387400c74e15c84eae74122566341bc, type: 3}
+  jumpSFX: {fileID: 8300000, guid: 4043a269090be0f468ff13258f1ddd19, type: 3}
+  hitSFX: {fileID: 8300000, guid: 4046de11ce07a154cb6e70676f798898, type: 3}
+  slideSFX: {fileID: 8300000, guid: 6dfdd938cc39f8941998558db1a2a982, type: 3}
+  landSFX: {fileID: 8300000, guid: 07ec7d6f0213ca24fac9f33951ae6214, type: 3}
 --- !u!114 &1959613112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5988,7 +6169,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1388163686}
+  - {fileID: 442349125}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1962751843}

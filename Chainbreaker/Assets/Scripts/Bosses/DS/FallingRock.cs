@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallingRock : MonoBehaviour
@@ -8,6 +7,7 @@ public class FallingRock : MonoBehaviour
     bool floored = false;
     public GameObject breakParticles;
     public GameObject warningRing;
+    public AudioClip breakSound;
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Projectile")
@@ -36,6 +36,7 @@ public class FallingRock : MonoBehaviour
     void Break()
     {
         GameObject particles = Instantiate(breakParticles, gameObject.transform.position, Quaternion.Euler(-90, 0, 0));
+        SFXManager.instance.PlaySFXClip(breakSound, this.transform.position, 1f);
         Destroy(particles, 5f);
         Destroy(gameObject);
         Destroy(warningRing);
