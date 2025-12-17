@@ -7,33 +7,36 @@ public class CameraFollow : MonoBehaviour
     public GameObject orient, player;
     public float lookDelay = 0.125f;
     public float sensitivity = 10;
-    public Vector3 offset; // how far the camera is from the player
-    public int minVert, maxVert;
+    public Vector3 offset; // how far the camera is from the orient object
+    public int minVert, maxVert; //minimum and maximum vertical distance able to be looked
     public int baseFOV = 60;
 
     [Header("Aiming")]
     public GameObject crosshair;
     public bool aiming;
-    public Vector3 aimOffset;
+    public Vector3 aimOffset; // how far the camera is from the aim target
     public int aimFOV = 30;
-    public Transform aimTarget;
-    public LayerMask bossLayer;
+    public Transform aimTarget; 
+    public LayerMask bossLayer; //used for shooting to test that what has been shot is the boss
 
     private void Start()
     {
+        //locks cursor
         Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
+        //set the crosshair active if aiming
         crosshair.SetActive(aiming);
 
-        Vector3 wantPos;
+        Vector3 wantPos; //the desired position
 
+        //get want positioned position based on if aiming
         if (aiming)
         {
             GetComponent<Camera>().fieldOfView = aimFOV;
 
-            wantPos = aimTarget.position + (orient.transform.rotation * aimOffset);
+            wantPos = aimTarget.position + (orient.transform.rotation.normalized * aimOffset);
 
             transform.LookAt(aimTarget);
 
@@ -41,7 +44,7 @@ public class CameraFollow : MonoBehaviour
         else
         {
             GetComponent<Camera>().fieldOfView = baseFOV;
-            wantPos = orient.transform.position + (orient.transform.rotation * offset);
+            wantPos = orient.transform.position + (orient.transform.rotation.normalized * offset);
             transform.LookAt(orient.transform);
         }
         Vector3 pos = Vector3.Lerp(transform.position, wantPos, lookDelay);
@@ -54,9 +57,17 @@ public class CameraFollow : MonoBehaviour
 
         float x;
         float y;
-        
-        x = Mathf.Clamp((inputVal.y * -sensitivity) + transform.rotation.eulerAngles.x, minVert, maxVert);
-        y = (inputVal.x * sensitivity) + transform.rotation.eulerAngles.y;
+
+        float sense = sensitivity;
+        if (aiming)
+            sense /= 2;
+
+
+        y = (inputVal.x * sense) + transform.rotation.eulerAngles.y;
+
+        x = (inputVal.y * -sense) + transform.rotation.eulerAngles.x;
+        Debug.Log(x);
+        //x = Mathf.Clamp(x, minVert, maxVert);
         
         StopAllCoroutines();
         StartCoroutine(RotatePlayerY(y));
