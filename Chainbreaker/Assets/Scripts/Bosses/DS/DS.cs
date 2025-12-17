@@ -310,7 +310,6 @@ public class DS : Boss
 
             attackTime = phases[currentPhase].attackTimer;
         }
-        StopAllCoroutines();
     }
 }
 
