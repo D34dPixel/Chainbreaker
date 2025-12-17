@@ -295,6 +295,8 @@ public class DS : Boss
             Die();
         else
         {
+            StartCoroutine(Teleport(phases[currentPhase].idlePositions[Random.Range(0, phases[currentPhase].idlePositions.Length - 1)] - Vector3.up*100));
+
             SFXManager.instance.PlaySFXClip(loseHeartSFX, transform.position, 1f, transform);
 
             batteryCharge++;

@@ -49,7 +49,7 @@ public class Boss : MonoBehaviour
 
     public void TakeDamage()
     {
-        if (state == BossState.attacking || state == BossState.teleporting)
+        if (state == BossState.teleporting)
             return;
 
         if (state == BossState.weakened)
