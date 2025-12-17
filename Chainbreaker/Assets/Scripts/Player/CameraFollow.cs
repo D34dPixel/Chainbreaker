@@ -64,13 +64,13 @@ public class CameraFollow : MonoBehaviour
         if (aiming)
             sense = aimSense;
 
-        y = (inputVal.x * sense) + transform.rotation.eulerAngles.y;
+        y = (inputVal.x * sense) + transform.rotation.eulerAngles.y * Time.timeScale;
 
 
         //normalise and clamp x according to this stackoverflow answer
         //https://stackoverflow.com/questions/76875952/how-do-i-clamp-horizontal-axis-rotation
 
-        x = (inputVal.y * -sense) + transform.rotation.eulerAngles.x;
+        x = (inputVal.y * -sense) + transform.rotation.eulerAngles.x * Time.timeScale;
 
         x = (x + 180) % 360;
         if (x < 0)
