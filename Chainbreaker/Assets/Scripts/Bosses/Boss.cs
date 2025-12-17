@@ -7,8 +7,8 @@ public class Boss : MonoBehaviour
     [System.Serializable]
     public class BossPhase
     {
-        public int maxHealth;
         public string name;
+        public int maxHealth;
         public float attackTimer;
         public float attackTimerVariation;
         public float recoveryTime;

@@ -722,13 +722,14 @@ MonoBehaviour:
   orient: {fileID: 1908075961}
   player: {fileID: 1959613109}
   lookDelay: 0.9
-  sensitivity: 20
+  sensitivity: 10
   offset: {x: 0, y: 0, z: -5}
   minVert: -25
   maxVert: 45
   baseFOV: 60
   crosshair: {fileID: 334925585}
   aiming: 0
+  aimSense: 2
   aimOffset: {x: 0, y: 0, z: -5}
   aimFOV: 30
   aimTarget: {fileID: 83191760}
@@ -970,8 +971,8 @@ MonoBehaviour:
   startWeakened: 0
   state: 0
   phases:
-  - maxHealth: 10
-    name: Phase 1
+  - name: Phase 1
+    maxHealth: 20
     attackTimer: 5
     attackTimerVariation: 2
     recoveryTime: 10
@@ -987,13 +988,13 @@ MonoBehaviour:
     - 3
     idlePositions:
     - {x: 0, y: 5, z: 0}
-  - maxHealth: 10
-    name: Phase 2
+  - name: Phase 2
+    maxHealth: 35
     attackTimer: 2
     attackTimerVariation: 1
     recoveryTime: 5
     chargeTimeMult: 0.75
-    nextPhaseExists: 0
+    nextPhaseExists: 1
     attackVariables:
     - 3
     - 2
@@ -1001,6 +1002,23 @@ MonoBehaviour:
     - 10
     - 1
     - 40
+    - 6
+    idlePositions:
+    - {x: 0, y: 5, z: 0}
+  - name: Phase 3
+    maxHealth: 50
+    attackTimer: 0.5
+    attackTimerVariation: 2
+    recoveryTime: 2
+    chargeTimeMult: 0.5
+    nextPhaseExists: 0
+    attackVariables:
+    - 5
+    - 1
+    - 10
+    - 15
+    - 0.5
+    - 50
     - 6
     idlePositions:
     - {x: 0, y: 5, z: 0}
@@ -1015,7 +1033,7 @@ MonoBehaviour:
   player: {fileID: 1959613109}
   attacks:
   - name: Charge
-    chargeTime: 3
+    chargeTime: 5
     attackTime: 3
     minDistFromPlayer: 0
     maxDistFromPlayer: 0
@@ -1652,7 +1670,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: fe1c864532c87ca44b1cfa2da0eba75f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.75
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5510,7 +5528,7 @@ MonoBehaviour:
   - {fileID: 182586782}
   - {fileID: 1017929660}
   - {fileID: 1022089557}
-  maxShootCD: 1
+  maxShootCD: 0.5
   maxReloadTime: 0.5
   raycastDist: 1
   ground:
