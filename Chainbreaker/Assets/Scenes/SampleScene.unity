@@ -722,9 +722,9 @@ MonoBehaviour:
   orient: {fileID: 1908075961}
   player: {fileID: 1959613109}
   lookDelay: 0.9
-  sensitivity: 10
+  sensitivity: 20
   offset: {x: 0, y: 0, z: -5}
-  minVert: -45
+  minVert: -25
   maxVert: 45
   baseFOV: 60
   crosshair: {fileID: 334925585}

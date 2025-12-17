@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     public GameObject orient, player;
     public float lookDelay = 0.125f;
-    public float sensitivity = 10;
+    public float sensitivity = 5;
     public Vector3 offset; // how far the camera is from the orient object
     public int minVert, maxVert; //minimum and maximum vertical distance able to be looked
     public int baseFOV = 60;
@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
     [Header("Aiming")]
     public GameObject crosshair;
     public bool aiming;
+    public float aimSense = 2;
     public Vector3 aimOffset; // how far the camera is from the aim target
     public int aimFOV = 30;
     public Transform aimTarget; 
@@ -53,22 +54,31 @@ public class CameraFollow : MonoBehaviour
 
     public void OnRotate(InputValue val)
     {
-        Vector2 inputVal = val.Get<Vector2>().normalized;
+        Vector2 inputVal = val.Get<Vector2>();
 
         float x;
         float y;
 
         float sense = sensitivity;
-        if (aiming)
-            sense /= 2;
 
+        if (aiming)
+            sense = aimSense;
 
         y = (inputVal.x * sense) + transform.rotation.eulerAngles.y;
 
+
+        //normalise and clamp x according to this stackoverflow answer
+        //https://stackoverflow.com/questions/76875952/how-do-i-clamp-horizontal-axis-rotation
+
         x = (inputVal.y * -sense) + transform.rotation.eulerAngles.x;
-        Debug.Log(x);
-        //x = Mathf.Clamp(x, minVert, maxVert);
-        
+
+        x = (x + 180) % 360;
+        if (x < 0)
+            x += 360;
+        x -= 180;
+
+        x = Mathf.Clamp(x, minVert, maxVert);
+
         StopAllCoroutines();
         StartCoroutine(RotatePlayerY(y));
         StartCoroutine(RotatePlayerX(x));
