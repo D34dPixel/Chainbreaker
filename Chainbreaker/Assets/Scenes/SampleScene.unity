@@ -3729,7 +3729,7 @@ MonoBehaviour:
   fadeScreen: {fileID: 335376679}
   loop: {fileID: 1748118238}
   tickTock: {fileID: 0}
-  rewindSFX: {fileID: 0}
+  rewindSFX: {fileID: 8300000, guid: 3ebc1747acf498645af0f69786b952a5, type: 3}
 --- !u!82 &1388163688
 AudioSource:
   m_ObjectHideFlags: 0

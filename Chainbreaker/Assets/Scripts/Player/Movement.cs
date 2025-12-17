@@ -1,10 +1,6 @@
-using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 public class Movement : MonoBehaviour
 {
     public GameObject orient, chara;
