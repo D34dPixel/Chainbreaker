@@ -8,12 +8,10 @@ public class DS : Boss
     public class DSAttack
     {
         public string name;
-        public float chargeTime;
-        public float attackTime;
-        public float minDistFromPlayer;
-        public float maxDistFromPlayer;
+        public float chargeTime, attackTime, minDistFromPlayer, maxDistFromPlayer;
         public Vector3 hitboxSize;
         public Vector3[] positions;
+        public AudioClip attackSFX, chargeSFX;
     }
 
     bool charging, weakened;
@@ -24,6 +22,7 @@ public class DS : Boss
     public int chosenAttack;
     public GameObject rock;
     public GameObject warningRing;
+    public AudioClip yellSFX;
 
     [Header("Battery")]
     public int maxBattery;
@@ -33,7 +32,7 @@ public class DS : Boss
     [Header("Health")]
     public int heartCount = 3;
     public GameObject[] hearts;
-    
+    public AudioClip loseHeartSFX;
 
     private void Start()
     {
@@ -63,6 +62,7 @@ public class DS : Boss
             recoveryTime -= Time.fixedDeltaTime;
             if (recoveryTime <= 0)
             {
+                SFXManager.instance.PlaySFXClip(recoverSFX, transform.position, 1f, transform);
                 state = BossState.idle;
                 weakened = false;
                 batteryCharge = maxBattery;
@@ -116,6 +116,8 @@ public class DS : Boss
 
     IEnumerator Teleport(Vector3 position)
     {
+        SFXManager.instance.PlaySFXClip(tpSFX, transform.position, 1f);
+
         state = BossState.teleporting;
         yield return new WaitForSeconds(1f);
         if (charging)
@@ -134,6 +136,9 @@ public class DS : Boss
 
         for (int i = 0; i < chargeCount; i++)
         {
+
+            SFXManager.instance.PlaySFXClip(attacks[chosenAttack].chargeSFX, transform.position, 1f, transform);
+
             yield return new WaitForSeconds((attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult)/(2*(i+1)));
             charging = false;
 
@@ -151,6 +156,8 @@ public class DS : Boss
                 targetPosition += Vector3.up;
 
             //Debug.Log(targetPosition.ToString());
+            
+            SFXManager.instance.PlaySFXClip(attacks[chosenAttack].attackSFX, transform.position, 1f, transform);
 
             while (chargingTime < chargeTime)
             {
@@ -174,24 +181,33 @@ public class DS : Boss
 
     public IEnumerator SlamAttack() //attack 1
     {
+        SFXManager.instance.PlaySFXClip(attacks[chosenAttack].chargeSFX, transform.position, 1f, transform);
+
         yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
 
         charging = false;
         a.SetTrigger("Attack!");
         state = BossState.attacking;
 
-        yield return new WaitForSeconds(attacks[1].attackTime);
+        SFXManager.instance.PlaySFXClip(attacks[chosenAttack].attackSFX, transform.position, 1f, transform);
+
+        yield return new WaitForSeconds(attacks[chosenAttack].attackTime);
+
 
         ResetAttackTime();
     }
 
     public IEnumerator YellAttack() // attack 2, uses phase mult 2, 3 4
     {
+        SFXManager.instance.PlaySFXClip(attacks[chosenAttack].chargeSFX, transform.position, 1f, transform);
+
         int rockCount = (int)phases[currentPhase].attackVariables[2];
         float rockMass = phases[currentPhase].attackVariables[3];
         float rockSpawnSpeed = phases[currentPhase].attackVariables[4];
 
         yield return new WaitForSeconds(attacks[chosenAttack].chargeTime * phases[currentPhase].chargeTimeMult);
+
+        SFXManager.instance.PlaySFXClip(yellSFX, transform.position, 1f, transform);
 
         charging = false;
         a.SetTrigger("Attack!");
@@ -199,6 +215,8 @@ public class DS : Boss
 
         for (int i = 0; i < rockCount; i++)
         {
+            SFXManager.instance.PlaySFXClip(attacks[chosenAttack].attackSFX, transform.position, 1f, transform);
+
             Vector3 spawnPos = new Vector3(player.transform.position.x, 1, player.transform.position.z);
             Vector3 rockSpawn = (spawnPos + (Vector3.up * 100));
             GameObject rockGO = Instantiate(rock, rockSpawn, Quaternion.identity);
@@ -227,6 +245,8 @@ public class DS : Boss
             state = BossState.weakened;
             weakened = true;
             recoveryTime = phases[currentPhase].recoveryTime;
+            SFXManager.instance.PlaySFXClip(weakenSFX, transform.position, 1f, transform);
+
         }
         else
         {
@@ -267,27 +287,30 @@ public class DS : Boss
     public override IEnumerator AdvancePhase()
     {
         heartCount--;
-        currentPhase++;
+
+        if (phases[currentPhase].nextPhaseExists)
+            currentPhase++;
 
         if (heartCount <= 0)
             Die();
-
         else
         {
+            SFXManager.instance.PlaySFXClip(loseHeartSFX, transform.position, 1f, transform);
+
+            batteryCharge++;
+            ResetAttackTime();
+
+            yield return new WaitForSeconds(2f);
+
             maxBattery = (int)phases[currentPhase].attackVariables[6];
 
             health = phases[currentPhase].maxHealth;
+            batteryCharge = maxBattery;
+            DisplayStats();
 
-            while (batteryCharge < maxBattery)
-            {
-                batteryCharge++;
-                DisplayStats();
-                attackTime = phases[currentPhase].attackTimer;
-                yield return new WaitForSeconds(1f);
-                batteryCharge++;
-                DisplayStats();
-                yield return new WaitForSeconds(1f);
-            }
+            attackTime = phases[currentPhase].attackTimer;
         }
+        StopAllCoroutines();
     }
 }
+

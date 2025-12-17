@@ -31,6 +31,10 @@ public class Boss : MonoBehaviour
     public BossPhase[] phases;
     public int currentPhase;
 
+    [Header("Sounds")]
+    public AudioClip windupSFX;
+    public AudioClip hitSFX, hitWeakSFX, tpSFX, weakenSFX, recoverSFX;
+
     [Header("References")]
     public Animator a;
 
@@ -45,14 +49,22 @@ public class Boss : MonoBehaviour
 
     public void TakeDamage()
     {
+        if (state == BossState.attacking || state == BossState.teleporting)
+            return;
+
         if (state == BossState.weakened)
         {
+
+            SFXManager.instance.PlaySFXClip(hitWeakSFX, transform.position, 1f, transform);
             recoveryTime = 0;
             attackTime = 1;
             health -= hitDamageWeakened;
         }
         else
+        {
+            SFXManager.instance.PlaySFXClip(hitSFX, transform.position, 1f, transform);
             health -= hitDamage;
+        }
 
         if (health <= 0)
         {

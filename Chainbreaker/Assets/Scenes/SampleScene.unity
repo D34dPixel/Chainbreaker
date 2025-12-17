@@ -987,7 +987,7 @@ MonoBehaviour:
     - 3
     idlePositions:
     - {x: 0, y: 5, z: 0}
-  - maxHealth: 20
+  - maxHealth: 10
     name: Phase 2
     attackTimer: 2
     attackTimerVariation: 1
@@ -1005,6 +1005,12 @@ MonoBehaviour:
     idlePositions:
     - {x: 0, y: 5, z: 0}
   currentPhase: 0
+  windupSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
+  hitSFX: {fileID: 8300000, guid: 3338c50a650090740ac8e47a08261da5, type: 3}
+  hitWeakSFX: {fileID: 8300000, guid: b753cdadceaf8004fa417ac85cd4297c, type: 3}
+  tpSFX: {fileID: 8300000, guid: 61411c3c252def646a796a6146e92dc4, type: 3}
+  weakenSFX: {fileID: 8300000, guid: 516db5b0421016048bcd4e6acf426418, type: 3}
+  recoverSFX: {fileID: 8300000, guid: dd494b3066892e24a85f32120e007a52, type: 3}
   a: {fileID: 0}
   player: {fileID: 1959613109}
   attacks:
@@ -1019,6 +1025,8 @@ MonoBehaviour:
     - {x: -25, y: 2, z: 25}
     - {x: -25, y: 2, z: -25}
     - {x: 25, y: 2, z: -25}
+    attackSFX: {fileID: 8300000, guid: 0f9a20ad0481ad1489d8b2554bacf4d1, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
   - name: Slam
     chargeTime: 5
     attackTime: 5
@@ -1027,6 +1035,8 @@ MonoBehaviour:
     hitboxSize: {x: 0, y: 0, z: 0}
     positions:
     - {x: 0, y: 2.5, z: 0}
+    attackSFX: {fileID: 8300000, guid: 23470ab2c81eef04b94328bb7788f24c, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 107b95160407148458393d80e6c8c6f1, type: 3}
   - name: Yell
     chargeTime: 2
     attackTime: 5
@@ -1043,9 +1053,12 @@ MonoBehaviour:
     - {x: -30, y: 5, z: -30}
     - {x: 0, y: 5, z: -45}
     - {x: 30, y: 5, z: -30}
+    attackSFX: {fileID: 8300000, guid: a386a1df39515884c9cf02ccc12a32d5, type: 3}
+    chargeSFX: {fileID: 8300000, guid: 0145c13dd308563479f9aab640513a46, type: 3}
   chosenAttack: 0
   rock: {fileID: 7545575271890918708, guid: 0380361ef3bed8a408859b9b26603c83, type: 3}
   warningRing: {fileID: 1188391363133476093, guid: fae3e854674ca1e40a2008d4ac96d159, type: 3}
+  yellSFX: {fileID: 8300000, guid: 29f63c0ff42859347a862c4c55b6228a, type: 3}
   maxBattery: 3
   batteries:
   - {fileID: 1685373204}
@@ -1059,6 +1072,7 @@ MonoBehaviour:
   - {fileID: 442138195}
   - {fileID: 1953094547}
   - {fileID: 1281721880}
+  loseHeartSFX: {fileID: 8300000, guid: b36a1f84de4892c4a80ca198f8ffedc8, type: 3}
 --- !u!65 &299099275
 BoxCollider:
   m_ObjectHideFlags: 0
